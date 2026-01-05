@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- ENUMS (Tipos Fixos) ---
+enum Role {
+  LIDER
+  COLIDER
+  ANCIAO
+  MEMBRO
+}
+
+enum WarPreference {
+  IN  // Verde (Quero ir)
+  OUT // Vermelho (Não me coloque)
+}
+
+// --- MODELOS ---
+
+model Member {
+  id            String    @id @default(cuid())
+  name          String
+  tag           String    @unique // A chave principal do jogador (#P028...)
+  avatarSeed    String?
+  phone         String?
+  lastSeen      DateTime  @default(now())
+
+  // Autenticação
+  password      String    // Senha criptografada (hash)
+  
+  // Dados do Jogo
+  role          Role      @default(MEMBRO)
+  thLevel       Int       @default(1) // Centro de Vila
+  
+  // Gestão de Guerra
+  warStatus     WarPreference @default(IN)
+  strikes       Int       @default(0) // Número de advertências
+  
+  // --- MUDANÇA FINANCEIRA AQUI ---
+  // Removemos 'tickets' e 'lastPayment' diretos daqui.
+  // Agora usamos relacionamentos:
+  
+  // Relacionamentos
+  participations EventParticipation[] // Participações em eventos financeiros
+  payments       PaymentHistory[]     // Histórico geral de pagamentos
+  logs           AuditLog[]           // Logs de ações
+  attacks        Attack[]             // Histórico de guerra
+  
+  // Controle
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([name])
+}
+
+// --- NOVO: GESTÃO DE EVENTOS FINANCEIROS ---
+
+model FinanceEvent {
+  id          String   @id @default(cuid())
+  title       String   // Ex: "Sorteio Skin Janeiro", "Vaquinha Upgrade"
+  ticketPrice Float    // Valor da cota para ESTE evento específico
+  goalAmount  Float?   // Meta de arrecadação (Opcional)
+  status      String   @default("ACTIVE") // "ACTIVE" ou "CLOSED"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  participations EventParticipation[]
+  payments       PaymentHistory[]     // Pagamentos atrelados a este evento
+}
+
+// --- NOVO: TABELA DE PARTICIPAÇÃO (Quem comprou o quê) ---
+model EventParticipation {
+  id        String   @id @default(cuid())
+  
+  // Relacionamento com Evento
+  eventId   String
+  event     FinanceEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  // Relacionamento com Membro
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  tickets   Int      @default(0) // Quantas cotas comprou NESTE evento
+  updatedAt DateTime @updatedAt
+
+  // Garante que um membro só tenha 1 registro por evento (evita duplicidade de linha)
+  @@unique([eventId, memberId])
+}
+
+// --- HISTÓRICO DE PAGAMENTOS (Atualizado) ---
+model PaymentHistory {
+  id             String   @id @default(cuid())
+  amount         Float    // Valor pago (ex: 4.00)
+  tickets        Int      // Quantas cotas comprou na hora
+  date           DateTime @default(now())
+  
+  memberId       String
+  member         Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  // Novo: Link opcional com o evento (para saber do que foi esse pagamento)
+  financeEventId String?
+  financeEvent   FinanceEvent? @relation(fields: [financeEventId], references: [id])
+}
+
+// --- DEMAIS MODELOS (Mantidos para compatibilidade) ---
+
+// Logs do Sistema
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // Ex: "PAGAMENTO", "GUERRA", "RECRUTAMENTO"
+  details   String   // Detalhes da ação
+  createdAt DateTime @default(now())
+
+  memberId  String?  // Quem fez a ação
+  member    Member?  @relation(fields: [memberId], references: [id])
+}
+
+// Configurações Globais (Mantido para valores padrão)
+model Config {
+  id          String @id @default("global_config")
+  ticketPrice Float  @default(2.00)   // Preço padrão sugerido
+  skinGoal    Float  @default(44.90)  // Meta padrão sugerida
+}
+
+// Eventos de Calendário (Guerra, Jogos de Clã, etc - NÃO É O FINANCEIRO)
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  type        String   // "war", "games", "raid", "other"
+  date        String   // Ex: "22/12 - 28/12"
+  createdAt   DateTime @default(now())
+}
+
+model Strategy {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  thLevel     Int
+  difficulty  String   // "Fácil", "Médio", "Difícil"
+  videoUrl    String?
+  army        String   // Texto simples
+  createdAt   DateTime @default(now())
+}
+
+model Layout {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  thLevel     Int
+  type        String   // "war", "farm", "push"
+  imageUrl    String   // URL da imagem
+  link        String   // Link para copiar
+  createdAt   DateTime @default(now())
+}
+
+model War {
+  id           String   @id @default(cuid())
+  opponentName String
+  size         Int      // 15, 20, 25, etc.
+  result       String?  // "win", "loss", "draw"
+  score        String?  // "45-42"
+  startDate    DateTime
+  endDate      DateTime
+  isActive     Boolean  @default(true)
+  isLeague     Boolean  @default(false)
+  attacks      Attack[]
+}
+
+model Attack {
+  id           String   @id @default(cuid())
+  warId        String
+  war          War      @relation(fields: [warId], references: [id], onDelete: Cascade)
+  memberId     String
+  member       Member   @relation(fields: [memberId], references: [id])
+  attackNumber Int      // 1 or 2
+  target       String   // e.g., "#OPONENT_TAG" or "Player 15"
+  stars        Int      // 0-3
+  destruction  Int      // 0-100
+  notes        String?
+  createdAt    DateTime @default(now())
+}

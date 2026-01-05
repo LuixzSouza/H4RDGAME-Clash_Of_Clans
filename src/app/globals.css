@@ -1,26 +1,216 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body), "Inter", ui-sans-serif, system-ui;
+  --font-heading: var(--font-heading), "Supercell-Magic", "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), "JetBrains Mono", monospace;
+  
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --- VARIÁVEIS DE TEMA AVANÇADAS --- */
+:root {
+  --radius: 0.75rem;
+
+  /* MODO CLARO (Não focado, mas mantido funcional) */
+  --background: oklch(0.97 0.01 260);
+  --foreground: oklch(0.20 0.05 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.20 0.05 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.20 0.05 260);
+  --primary: oklch(0.60 0.18 50); /* Laranja Clash */
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.95 0.02 260);
+  --secondary-foreground: oklch(0.25 0.05 260);
+  --muted: oklch(0.95 0.02 260);
+  --muted-foreground: oklch(0.50 0.05 260);
+  --accent: oklch(0.95 0.02 260);
+  --accent-foreground: oklch(0.25 0.05 260);
+  --destructive: oklch(0.55 0.20 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.90 0.02 260);
+  --input: oklch(0.90 0.02 260);
+  --ring: oklch(0.60 0.18 50);
+  
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.20 0.05 260);
+  --sidebar-primary: oklch(0.20 0.05 260);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.95 0.02 260);
+  --sidebar-accent-foreground: oklch(0.20 0.05 260);
+  --sidebar-border: oklch(0.90 0.02 260);
+  --sidebar-ring: oklch(0.90 0.02 260);
+}
+
+/* MODO ESCURO (O Principal - Estilo H4RD G4ME) */
+.dark {
+  /* Fundo Profundo (Azul Noturno) */
+  --background: oklch(0.14 0.03 260); 
+  --foreground: oklch(0.92 0.02 260);
+
+  /* Elementos de Interface (Cinza Azulado Escuro) */
+  --card: oklch(0.18 0.04 260);
+  --card-foreground: oklch(0.92 0.02 260);
+  --popover: oklch(0.18 0.04 260);
+  --popover-foreground: oklch(0.92 0.02 260);
+
+  /* Cores de Ação */
+  --primary: oklch(0.65 0.20 55); /* Laranja Vibrante */
+  --primary-foreground: oklch(1 0 0);
+  
+  --secondary: oklch(0.25 0.05 260); /* Cinza Médio */
+  --secondary-foreground: oklch(0.90 0.02 260);
+  
+  --muted: oklch(0.25 0.05 260);
+  --muted-foreground: oklch(0.60 0.05 260);
+  
+  --accent: oklch(0.25 0.05 260);
+  --accent-foreground: oklch(0.95 0.02 260);
+  
+  --destructive: oklch(0.50 0.20 25); /* Vermelho Sangue */
+  --destructive-foreground: oklch(1 0 0);
+
+  /* Bordas e Inputs (Sutis) */
+  --border: oklch(0.25 0.05 260);
+  --input: oklch(0.25 0.05 260);
+  --ring: oklch(0.65 0.20 55); /* Foco Laranja */
+
+  /* Sidebar Específica */
+  --sidebar: oklch(0.12 0.03 260);
+  --sidebar-foreground: oklch(0.90 0.02 260);
+  --sidebar-primary: oklch(0.65 0.20 55);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.20 0.04 260);
+  --sidebar-accent-foreground: oklch(0.95 0.02 260);
+  --sidebar-border: oklch(0.25 0.05 260);
+  --sidebar-ring: oklch(0.65 0.20 55);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  /* Scrollbar Personalizada */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-700/50 rounded-full hover:bg-slate-600 transition-colors;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Gradiente Global Fixo */
+    background-image: 
+        radial-gradient(circle at top center, oklch(0.20 0.06 260 / 0.4), transparent 70%),
+        linear-gradient(to bottom, oklch(0.14 0.03 260), oklch(0.10 0.02 260));
+    background-attachment: fixed;
+  }
+
+  /* Tipografia Clash */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-wide drop-shadow-md;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  
+  /* Botão Laranja Épico (Estilo Clash) */
+  .btn-clash {
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-xl 
+           bg-gradient-to-b from-yellow-400 to-orange-600 
+           px-6 py-3 font-bold uppercase tracking-wider text-white 
+           shadow-[0_4px_0_0_#9a3412,0_7px_5px_0_rgba(0,0,0,0.3)] 
+           transition-all duration-150 active:shadow-none active:translate-y-1;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  }
+  .btn-clash:hover {
+    @apply brightness-110 -translate-y-0.5 shadow-[0_5px_0_0_#9a3412,0_10px_10px_0_rgba(0,0,0,0.3)];
+  }
+
+  /* Botão Verde Épico */
+  .btn-clash-green {
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-xl 
+           bg-gradient-to-b from-lime-400 to-green-700 
+           px-6 py-3 font-bold uppercase tracking-wider text-white 
+           shadow-[0_4px_0_0_#14532d,0_7px_5px_0_rgba(0,0,0,0.3)] 
+           transition-all duration-150 active:shadow-none active:translate-y-1;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  }
+  .btn-clash-green:hover {
+    @apply brightness-110 -translate-y-0.5 shadow-[0_5px_0_0_#14532d,0_10px_10px_0_rgba(0,0,0,0.3)];
+  }
+
+  /* Cards com Efeito Vidro Fosco (Glassmorphism) */
+  .glass-panel {
+    @apply bg-[#1e202b]/90 backdrop-blur-md border border-[#2f3245] shadow-xl;
+  }
+
+  /* Card Padrão do Sistema */
+  .card-clash {
+    @apply bg-card border-border rounded-xl shadow-lg transition-all hover:border-slate-500/50;
+  }
+  
+  /* Máscara de Desvanecimento Linear (Útil para listas longas) */
+  .mask-linear-fade {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+}
+
+/* Animações Customizadas */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
 }
