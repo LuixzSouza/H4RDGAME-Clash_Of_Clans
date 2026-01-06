@@ -7,21 +7,30 @@ import { Role, WarPreference, Prisma } from "@prisma/client";
 import { fetchClanData } from "@/lib/coc"; 
 import { createLog } from "@/app/actions"; 
 
-// --- UTILS LOCAIS ---
+// --- UTILS LOCAIS (CORRIGIDO E MAIS ROBUSTO) ---
+// Agora aceita "LIDER", "Líder", "lider", etc.
 function mapRole(role: string): Role {
-  switch (role) {
-    case "Líder": return Role.LIDER;
-    case "Colíder": return Role.COLIDER;
-    case "Ancião": return Role.ANCIAO;
-    default: return Role.MEMBRO;
-  }
+  if (!role) return Role.MEMBRO;
+  
+  const normalized = role.toUpperCase().trim();
+
+  // Verifica variações comuns
+  if (['LIDER', 'LÍDER', 'LEADER'].includes(normalized)) return Role.LIDER;
+  if (['COLIDER', 'COLÍDER', 'COLEADER', 'CO-LEADER'].includes(normalized)) return Role.COLIDER;
+  if (['ANCIAO', 'ANCIÃO', 'ELDER', 'ADMIN'].includes(normalized)) return Role.ANCIAO;
+  
+  return Role.MEMBRO;
 }
 
 function mapCocRoleToEnum(cocRole: string): Role {
-  switch (cocRole) {
+  if (!cocRole) return Role.MEMBRO;
+  
+  const normalized = cocRole.toLowerCase().trim();
+  
+  switch (normalized) {
     case "leader": return Role.LIDER;
-    case "coLeader": return Role.COLIDER;
-    case "admin": return Role.ANCIAO;
+    case "coleader": return Role.COLIDER;
+    case "admin": return Role.ANCIAO; // No Clash API, "admin" = Ancião
     case "member": return Role.MEMBRO;
     default: return Role.MEMBRO;
   }
@@ -31,7 +40,10 @@ function mapCocRoleToEnum(cocRole: string): Role {
 export async function getMembers() {
   try {
     return await prisma.member.findMany({
-      orderBy: [{ role: 'asc' }, { name: 'asc' }]
+      orderBy: [
+        { role: 'asc' }, // LIDER vem primeiro no enum por padrão se definido assim, senão ordene por peso customizado
+        { name: 'asc' }
+      ]
     });
   } catch (error) {
     console.error("Erro ao buscar membros:", error);
@@ -48,7 +60,11 @@ export async function createMember(formData: FormData) {
     const rawPassword = formData.get("password") as string;
     const phone = formData.get("phone") as string;
 
-    const hashedPassword = await bcrypt.hash(rawPassword, 10);
+    // Se a senha vier vazia, define uma padrão
+    const passwordToHash = rawPassword || "h4rdgame2025";
+    const hashedPassword = await bcrypt.hash(passwordToHash, 10);
+    
+    // Mapeamento robusto
     const roleEnum = mapRole(roleString);
 
     const newMember = await prisma.member.create({
@@ -59,16 +75,17 @@ export async function createMember(formData: FormData) {
         password: hashedPassword,
         phone: phone || null,
         warStatus: WarPreference.IN, 
-        // tickets: 0, <--- REMOVIDO AQUI
-        thLevel: 1,
-        lastSeen: new Date() // Novo membro = Online agora
+        thLevel: 1, // Padrão, depois atualiza com API
+        lastSeen: new Date()
       },
     });
 
-    await createLog("RECRUTAMENTO", `Novo guerreiro recrutado: ${name}`, newMember.id);
+    await createLog("RECRUTAMENTO", `Novo guerreiro recrutado: ${name} como ${roleEnum}`, newMember.id);
     revalidatePath("/dashboard/membros");
+    return { success: true };
   } catch (error) {
     console.error("Erro ao criar membro:", error);
+    return { success: false, error: "Erro ao criar membro" };
   }
 }
 
@@ -82,18 +99,21 @@ export async function updateMember(formData: FormData) {
   const phone = formData.get("phone") as string; 
 
   const warStatus = warStatusRaw === "IN" ? WarPreference.IN : WarPreference.OUT;
+  
+  // Aqui estava o erro provável: mapRole retornava MEMBRO se a string não fosse exata
   const roleEnum = mapRole(roleString);
 
+  console.log(`[UPDATE] Atualizando ${name}. Cargo recebido: ${roleString} -> Convertido: ${roleEnum}`);
+
   try {
-    // 1. Busca o membro atual para verificações de segurança
     const currentMember = await prisma.member.findUnique({ where: { id } });
 
     if (!currentMember) return { success: false, message: "Membro não encontrado" };
 
-    // 2. PROTEÇÃO DE ADMIN SUPREMO (Evita perder acesso)
+    // PROTEÇÃO DE ADMIN SUPREMO
     let finalRole = roleEnum;
-    
-    if (currentMember.tag === '#ADMIN') { 
+    if (currentMember.tag === '#ADMIN' || currentMember.tag === '#2G0') { 
+        console.log("[PROTECT] Tentativa de alterar Admin Supremo bloqueada. Mantendo LIDER.");
         finalRole = Role.LIDER;
     }
 
@@ -102,7 +122,7 @@ export async function updateMember(formData: FormData) {
       data: { 
           name, 
           role: finalRole, 
-          thLevel, 
+          thLevel: isNaN(thLevel) ? currentMember.thLevel : thLevel, 
           warStatus,
           phone: phone || null 
       }
@@ -120,10 +140,17 @@ export async function updateMember(formData: FormData) {
 export async function deleteMember(id: string) {
   try {
     const member = await prisma.member.findUnique({ where: { id } });
-    if (member) {
-      await prisma.member.delete({ where: { id } });
-      await createLog("EXPULSAO", `${member.name} foi removido do clã.`);
+    if (!member) return;
+
+    // Proteção extra: Não deletar o Admin principal via sistema
+    if (member.tag === '#ADMIN') {
+        console.warn("Tentativa de deletar ADMIN bloqueada.");
+        return;
     }
+
+    await prisma.member.delete({ where: { id } });
+    await createLog("EXPULSAO", `${member.name} foi removido do clã.`);
+    
     revalidatePath("/dashboard/membros");
   } catch (error) {
     console.error("Erro ao excluir membro:", error);
@@ -168,7 +195,7 @@ export async function markAsSeen(id: string) {
     }
 }
 
-// --- SINCRONIZAÇÃO COM API (INTELIGENTE) ---
+// --- SINCRONIZAÇÃO COM API ---
 export async function syncWithGame() {
   try {
     const clanData = await fetchClanData();
@@ -180,7 +207,6 @@ export async function syncWithGame() {
     for (const member of clanData.memberList) {
       activeTags.add(member.tag);
       
-      // --- DETECÇÃO DE ATIVIDADE ---
       const hasLeague = member.league && member.league.id && member.league.name !== "Unranked";
       const hasActivity = 
           member.attackWins > 0 ||          
@@ -190,9 +216,12 @@ export async function syncWithGame() {
 
       const isActiveInGame = hasLeague || hasActivity;
 
+      // Importante: mapCocRoleToEnum garante que o cargo venha certo da API
+      const newRole = mapCocRoleToEnum(member.role);
+
       const updateData: Prisma.MemberUpdateInput = {
         name: member.name,
-        role: mapCocRoleToEnum(member.role),
+        role: newRole,
         thLevel: member.townHallLevel,
         isActive: true,
       };
@@ -207,11 +236,10 @@ export async function syncWithGame() {
         create: {
           name: member.name, 
           tag: member.tag,
-          role: mapCocRoleToEnum(member.role),
+          role: newRole,
           thLevel: member.townHallLevel,
           password: defaultPasswordHash,
           warStatus: WarPreference.IN, 
-          // tickets: 0, <--- REMOVIDO AQUI TAMBÉM
           isActive: true,
           lastSeen: new Date()
         }
@@ -230,6 +258,7 @@ export async function syncWithGame() {
 
   } catch (error) {
     console.error("ERRO CRÍTICO NA API:", error);
-    throw new Error("Falha ao conectar com a Supercell API.");
+    // Não lança erro para não quebrar a UI inteira, apenas loga
+    return { success: false, error: "Falha na API Supercell" };
   }
 }

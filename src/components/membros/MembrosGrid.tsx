@@ -1,17 +1,17 @@
 import { Shield } from "lucide-react";
 import { Member } from "./types";
-import { MemberCard } from "./grid/MemberCard"; // Importando o subcomponente
+import { MemberCard } from "./grid/MemberCard"; 
 
 interface MembrosGridProps {
   members: Member[];
-  isHighCommand: boolean;
+  currentUserRole: string; // ✅ CORRIGIDO: Recebe a string do cargo
   onEdit: (member: Member) => void;
   onDelete: (id: string) => void;
 }
 
-export function MembrosGrid({ members, isHighCommand, onEdit, onDelete }: MembrosGridProps) {
+export function MembrosGrid({ members, currentUserRole, onEdit, onDelete }: MembrosGridProps) {
 
-  // Tratamento para lista vazia (Reutilizando estilo do TableEmptyState mas adaptado)
+  // Tratamento para lista vazia
   if (members.length === 0) {
     return (
       <div className="col-span-full rounded-xl border border-[#2f3245] bg-[#1e202b] p-12 flex flex-col items-center justify-center text-slate-500">
@@ -27,7 +27,7 @@ export function MembrosGrid({ members, isHighCommand, onEdit, onDelete }: Membro
         <MemberCard 
             key={member.id}
             member={member}
-            isHighCommand={isHighCommand}
+            currentUserRole={currentUserRole} // ✅ Passando para o card
             onEdit={onEdit}
             onDelete={onDelete}
         />

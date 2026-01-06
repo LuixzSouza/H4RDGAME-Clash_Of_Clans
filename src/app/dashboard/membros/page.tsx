@@ -26,7 +26,7 @@ const ROLE_PRIORITY: Record<string, number> = { "LIDER": 1, "COLIDER": 2, "ANCIA
 export default function MembrosPage() {
   // --- ESTADOS GLOBAIS ---
   const [members, setMembers] = useState<Member[]>([]);
-  // Agora armazenamos o objeto completo do usuário, não apenas a string do cargo
+  // Agora armazenamos o objeto completo do usuário
   const [currentUser, setCurrentUser] = useState<{ id: string; role: string; tag: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
@@ -41,8 +41,11 @@ export default function MembrosPage() {
   const [isRecruitOpen, setIsRecruitOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<Member | null>(null);
 
-  // --- PERMISSÕES (Baseadas no objeto carregado) ---
+  // --- PERMISSÕES ---
+  // IMPORTANTE: Se o user não carregou ainda, assume MEMBRO (sem poder)
   const currentUserRole = currentUser?.role || "MEMBRO";
+  
+  // Helpers para botões gerais (Recrutamento/Sync)
   const isHighCommand = currentUserRole === 'LIDER' || currentUserRole === 'COLIDER';
   const canRecruit = isHighCommand || currentUserRole === 'ANCIAO';
 
@@ -72,14 +75,14 @@ export default function MembrosPage() {
     }
   };
 
-  // ... (Lógica de getDaysOffline, processedMembers, handlers - MANTIDOS IGUAIS) ...
-  // Vou ocultar para não repetir código desnecessário, mantenha como estava.
+  // Helper de dias offline
   const getDaysOffline = (dateInput?: Date | string | null) => {
       if (!dateInput) return 0;
       const diff = Math.abs(new Date().getTime() - new Date(dateInput).getTime());
       return Math.floor(diff / (1000 * 3600 * 24));
   };
 
+  // --- FILTRAGEM E ORDENAÇÃO ---
   const processedMembers = useMemo(() => {
     const result = members.filter(member => {
       const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -112,6 +115,7 @@ export default function MembrosPage() {
     return result;
   }, [members, searchTerm, filterMode, sortBy]);
 
+  // --- HANDLERS ---
   const handleSync = async () => {
     if (!isHighCommand) return;
     setSyncing(true);
@@ -146,7 +150,7 @@ export default function MembrosPage() {
     <div className="p-4 md:p-6 space-y-8 min-h-screen bg-[#0b0d14]">
       
       <MembersHeader 
-        isHighCommand={isHighCommand}
+        isHighCommand={isHighCommand} // Botões globais ainda usam boolean
         canRecruit={canRecruit}
         isSyncing={syncing}
         onSync={handleSync}
@@ -174,7 +178,7 @@ export default function MembrosPage() {
          viewMode === 'table' ? (
             <MembrosTable 
                members={processedMembers} 
-               isHighCommand={isHighCommand} 
+               currentUserRole={currentUserRole} // MUDANÇA CRÍTICA: Passando a string do cargo
                onEdit={setEditingMember} 
                onDelete={handleDelete}
                getDaysOffline={getDaysOffline}
@@ -182,7 +186,7 @@ export default function MembrosPage() {
          ) : (
             <MembrosGrid 
                members={processedMembers} 
-               isHighCommand={isHighCommand} 
+               currentUserRole={currentUserRole} // MUDANÇA CRÍTICA: Passando a string do cargo
                onEdit={setEditingMember} 
                onDelete={handleDelete} 
             />
@@ -197,7 +201,7 @@ export default function MembrosPage() {
 
       <EditMemberDialog 
         member={editingMember}
-        currentUser={currentUser} // <--- PASSANDO O USUÁRIO ATUAL AQUI
+        currentUser={currentUser}
         isOpen={!!editingMember}
         onOpenChange={(open) => !open && setEditingMember(null)}
         onSubmit={handleUpdateSubmit}

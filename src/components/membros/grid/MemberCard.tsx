@@ -1,4 +1,4 @@
-import { Shield, ShieldAlert, Star, Phone, MessageCircle } from "lucide-react";
+import { Shield, ShieldAlert, Star, MessageCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -7,7 +7,7 @@ import { MemberActionMenu } from "../MemberActionMenu";
 
 interface MemberCardProps {
   member: Member;
-  isHighCommand: boolean;
+  currentUserRole: string; // ✅ CORRIGIDO: Recebe a string do cargo
   onEdit: (member: Member) => void;
   onDelete: (id: string) => void;
 }
@@ -32,15 +32,15 @@ const getWhatsAppLink = (phone: string) => {
   return `https://wa.me/55${cleanNum}`;
 };
 
-export function MemberCard({ member, isHighCommand, onEdit, onDelete }: MemberCardProps) {
+export function MemberCard({ member, currentUserRole, onEdit, onDelete }: MemberCardProps) {
   return (
     <Card className="bg-[#1e202b] border-[#2f3245] overflow-hidden group hover:border-slate-500 transition-all relative">
       
-      {/* Menu de Ações */}
+      {/* Menu de Ações (Posicionado Absoluto) */}
       <div className="absolute top-2 right-2 z-10">
         <MemberActionMenu 
             member={member} 
-            isHighCommand={isHighCommand} 
+            currentUserRole={currentUserRole} // ✅ Passando a string correta para o menu
             onEdit={onEdit} 
             onDelete={onDelete} 
         />

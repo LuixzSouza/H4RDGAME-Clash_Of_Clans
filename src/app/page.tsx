@@ -4,6 +4,7 @@ import { Welcome } from "@/components/landing/Welcome";
 import { WarRules } from "@/components/landing/WarRules";
 import { Features } from "@/components/landing/Features";
 import { Footer } from "@/components/landing/Footer";
+import { Leadership } from "@/components/landing/Leadership";
 
 export default function LandingPage() {
   return (
@@ -11,6 +12,7 @@ export default function LandingPage() {
       <Navbar />
       <Hero />
       <Welcome />
+      <Leadership />
       <WarRules />
       <Features />
       <Footer />

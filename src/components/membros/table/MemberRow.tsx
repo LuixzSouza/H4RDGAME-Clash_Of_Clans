@@ -1,7 +1,7 @@
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircle, Phone, XCircle, CheckCircle2 } from "lucide-react"; // Novos ícones
+import { MessageCircle, XCircle } from "lucide-react";
 import { Member } from "../types";
 import { MemberActionMenu } from "../MemberActionMenu";
 import { WarStatusBadge } from "./StatusBadges";
@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 interface MemberRowProps {
   member: Member;
-  isHighCommand: boolean;
+  currentUserRole: string; // ✅ GARANTIA: Recebe o cargo exato (ex: "LIDER", "COLIDER")
   onEdit: (m: Member) => void;
   onDelete: (id: string) => void;
   getDaysOffline: (d?: Date | string | null) => number;
@@ -35,10 +35,10 @@ const getWhatsAppLink = (phone: string) => {
   return `https://wa.me/55${cleanNum}`;
 };
 
-export function MemberRow({ member, isHighCommand, onEdit, onDelete, getDaysOffline }: MemberRowProps) {
+export function MemberRow({ member, currentUserRole, onEdit, onDelete, getDaysOffline }: MemberRowProps) {
   const daysOff = getDaysOffline(member.lastSeen);
-  const isInactive = daysOff >= 5; // Regra de expulsão: 5 dias
-  const isInGroup = !!member.phone; // Se tem telefone, consideramos que está no grupo/contato
+  const isInactive = daysOff >= 5; 
+  const isInGroup = !!member.phone; 
 
   return (
     <TableRow className={`border-[#2f3245] transition-colors group ${isInactive ? 'bg-red-950/10 hover:bg-red-950/20' : 'hover:bg-[#252836]'}`}>
@@ -57,7 +57,6 @@ export function MemberRow({ member, isHighCommand, onEdit, onDelete, getDaysOffl
                 {member.name}
               </span>
               
-              {/* Indicador de Grupo WhatsApp */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -100,14 +99,14 @@ export function MemberRow({ member, isHighCommand, onEdit, onDelete, getDaysOffl
         </Badge>
       </TableCell>
 
-      {/* Coluna ATIVIDADE (Lógica Aprimorada) */}
+      {/* Coluna ATIVIDADE */}
       <TableCell className="text-center">
         <div className="flex flex-col items-center justify-center">
             <div className={`flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full border ${
               daysOff === 0 
                 ? 'text-emerald-400 bg-emerald-500/5 border-emerald-500/20' 
                 : isInactive 
-                  ? 'text-red-400 bg-red-500/10 border-red-500/30 animate-pulse' // Pisca se for expulsão
+                  ? 'text-red-400 bg-red-500/10 border-red-500/30 animate-pulse' 
                   : 'text-slate-400 border-transparent'
             }`}>
               <div className={`w-1.5 h-1.5 rounded-full ${daysOff === 0 ? 'bg-emerald-500' : isInactive ? 'bg-red-500' : 'bg-slate-500'}`} />
@@ -130,7 +129,7 @@ export function MemberRow({ member, isHighCommand, onEdit, onDelete, getDaysOffl
       <TableCell className="text-right pr-6">
         <MemberActionMenu 
           member={member} 
-          isHighCommand={isHighCommand} 
+          currentUserRole={currentUserRole} // ✅ Passando a prop corretamente
           onEdit={onEdit} 
           onDelete={onDelete} 
         />

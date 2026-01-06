@@ -5,13 +5,13 @@ import { MemberRow } from "./table/MemberRow";
 
 interface MembrosTableProps {
   members: Member[];
-  isHighCommand: boolean;
+  currentUserRole: string; // MUDANÇA: Agora recebemos o cargo exato, não apenas se é comando
   onEdit: (m: Member) => void;
   onDelete: (id: string) => void;
   getDaysOffline: (d?: Date | string | null) => number;
 }
 
-export function MembrosTable({ members, isHighCommand, onEdit, onDelete, getDaysOffline }: MembrosTableProps) {
+export function MembrosTable({ members, currentUserRole, onEdit, onDelete, getDaysOffline }: MembrosTableProps) {
   
   if (members.length === 0) {
     return <TableEmptyState />;
@@ -34,7 +34,7 @@ export function MembrosTable({ members, isHighCommand, onEdit, onDelete, getDays
             <MemberRow 
                 key={member.id}
                 member={member}
-                isHighCommand={isHighCommand}
+                currentUserRole={currentUserRole} // Passando o cargo para a linha fazer a verificação
                 onEdit={onEdit}
                 onDelete={onDelete}
                 getDaysOffline={getDaysOffline}

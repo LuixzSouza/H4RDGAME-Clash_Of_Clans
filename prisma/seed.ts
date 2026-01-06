@@ -4,88 +4,101 @@ import bcrypt from 'bcryptjs'
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Iniciando seed...')
+  console.log('🌱 Iniciando o seed do banco de dados...')
 
-  // Gera o hash da senha padrão
-  const hashedPassword = await bcrypt.hash('123456', 10)
+  // 1. Gerar Hash da Senha Padrão (123456)
+  const passwordHash = await bcrypt.hash('123456', 10)
 
-  // --- 1. CRIAR OU ATUALIZAR O LÍDER SUPREMO (ADMIN) ---
-  const lider = await prisma.member.upsert({
+  // --- 2. CRIAR O LÍDER SUPREMO (VOCÊ) ---
+  // Use Tag: #ADMIN e Senha: 123456 para logar
+  const admin = await prisma.member.upsert({
     where: { tag: '#ADMIN' },
     update: {
-      role: 'LIDER', // Força virar LÍDER se já existir
+      role: Role.LIDER, // Garante que seja LÍDER
       thLevel: 16,
-      password: hashedPassword,
-      name: 'Luiz Admin'
-      // OBS: Removemos 'tickets' daqui pois não existe mais na tabela Member
+      password: passwordHash,
+      isActive: true,
+      warStatus: WarPreference.IN
     },
     create: {
-      name: 'Luiz Admin',
+      name: 'Luixz Admin',
       tag: '#ADMIN',
-      password: hashedPassword,
-      role: 'LIDER',
+      role: Role.LIDER,
       thLevel: 16,
-      avatarSeed: 'LuizAdmin',
-      warStatus: 'IN'
-      // OBS: Removemos 'tickets' daqui também
+      password: passwordHash,
+      warStatus: WarPreference.IN,
+      isActive: true,
+      phone: '5535999999999' // Exemplo de telefone para testar o botão de Zap
     },
   })
+  console.log(`👑 Admin criado/atualizado: ${admin.name} (${admin.role})`)
 
-  console.log('✅ Admin atualizado:', lider.name)
-
-  // --- 2. CRIAR UM EVENTO FINANCEIRO DE TESTE ---
-  // Como tickets agora pertencem a eventos, precisamos de um evento
-  const eventoSeed = await prisma.financeEvent.create({
-    data: {
-      title: "Sorteio Inaugural (Seed)",
-      ticketPrice: 2.50,
-      goalAmount: 50.00,
-      status: "ACTIVE"
-    }
-  })
-  console.log('✅ Evento financeiro criado:', eventoSeed.title)
-
-  // --- 3. DAR TICKETS INFINITOS AO ADMIN NESTE EVENTO ---
-  await prisma.eventParticipation.upsert({
-    where: {
-      eventId_memberId: {
-        eventId: eventoSeed.id,
-        memberId: lider.id
-      }
-    },
-    update: {
-        tickets: 99 // Atualiza se já existir
-    },
-    create: {
-      eventId: eventoSeed.id,
-      memberId: lider.id,
-      tickets: 99 // Cria com 99 tickets
-    }
-  })
-  console.log('✅ Tickets atribuídos ao Admin no evento.')
-
-  // --- 4. (OPCIONAL) CRIAR OUTROS MEMBROS PARA TESTE ---
-  const dummyMembers = [
-    { name: "Vice Comandante", tag: "#VICE", role: Role.COLIDER, th: 15 },
-    { name: "Veterano", tag: "#ANCIAO", role: Role.ANCIAO, th: 13 },
-    { name: "Recruta Zero", tag: "#NOOB", role: Role.MEMBRO, th: 9 },
+  // --- 3. CRIAR MEMBROS DUMMY PARA TESTAR HIERARQUIA ---
+  const dummies = [
+    { name: 'General War', tag: '#COLIDER', role: Role.COLIDER, th: 15 },
+    { name: 'Strategist', tag: '#ANCIAO', role: Role.ANCIAO, th: 13 },
+    { name: 'Recruta Zero', tag: '#MEMBRO', role: Role.MEMBRO, th: 9 },
   ]
 
-  for (const m of dummyMembers) {
+  for (const dummy of dummies) {
     await prisma.member.upsert({
-      where: { tag: m.tag },
-      update: { role: m.role },
+      where: { tag: dummy.tag },
+      update: { role: dummy.role, isActive: true },
       create: {
-        name: m.name,
-        tag: m.tag,
-        role: m.role,
-        password: hashedPassword,
-        thLevel: m.th,
-        warStatus: WarPreference.IN
+        name: dummy.name,
+        tag: dummy.tag,
+        role: dummy.role,
+        thLevel: dummy.th,
+        password: passwordHash, // Todos com senha 123456 para facilitar teste
+        warStatus: WarPreference.IN,
+        isActive: true
       }
     })
   }
-  console.log('✅ Membros dummy criados.')
+  console.log('👥 Membros de teste criados (Colíder, Ancião, Membro).')
+
+  // --- 4. CRIAR UM EVENTO FINANCEIRO (NECESSÁRIO PARA TICKETS) ---
+  // Verifica se já existe um evento ativo, se não, cria um.
+  let activeEvent = await prisma.financeEvent.findFirst({
+    where: { status: 'ACTIVE' }
+  })
+
+  if (!activeEvent) {
+    activeEvent = await prisma.financeEvent.create({
+      data: {
+        title: 'Sorteio Mensal (Seed)',
+        ticketPrice: 2.50, // R$ 2,50 por ticket
+        goalAmount: 50.00, // Meta R$ 50,00
+        status: 'ACTIVE'
+      }
+    })
+    console.log('💰 Evento financeiro criado:', activeEvent.title)
+  } else {
+    console.log('💰 Evento financeiro existente encontrado:', activeEvent.title)
+  }
+
+  // --- 5. DAR TICKETS AO ADMIN ---
+  // Agora os tickets ficam na tabela EventParticipation
+  await prisma.eventParticipation.upsert({
+    where: {
+      // Chave composta (eventId + memberId)
+      eventId_memberId: {
+        eventId: activeEvent.id,
+        memberId: admin.id
+      }
+    },
+    update: {
+      tickets: 10 // Atualiza para 10 se já existir
+    },
+    create: {
+      eventId: activeEvent.id,
+      memberId: admin.id,
+      tickets: 10
+    }
+  })
+  console.log('🎟️ 10 Tickets adicionados ao Admin no evento atual.')
+
+  console.log('✅ Seed finalizado com sucesso!')
 }
 
 main()
@@ -93,7 +106,7 @@ main()
     await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error(e)
+    console.error('❌ Erro no seed:', e)
     await prisma.$disconnect()
     process.exit(1)
   })
