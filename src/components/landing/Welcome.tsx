@@ -1,37 +1,55 @@
-import { MessageCircle } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Quote, Shield, Swords, Heart } from "lucide-react";
+
+const PILLARS = [
+  { icon: Shield, title: "Lealdade", desc: "Defendemos cada membro como família." },
+  { icon: Swords, title: "Estratégia", desc: "Vitórias nascem do planejamento, não da sorte." },
+  { icon: Heart, title: "Diversão", desc: "Acima de tudo, jogamos pra rir junto." },
+];
 
 export function Welcome() {
   return (
-    <section id="sobre" className="py-20 bg-[#12141c] border-y border-white/5 relative">
-      <div className="container mx-auto px-6">
+    <section id="sobre" className="py-24 bg-background border-y border-white/5 relative overflow-hidden">
+      {/* glow lateral sutil */}
+      <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-72 h-72 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-            
-            <div className="mb-8 flex justify-center">
-                <div className="h-16 w-16 bg-[#1a1c26] rounded-2xl border-2 border-[#2f3245] flex items-center justify-center shadow-xl rotate-3">
-                    <MessageCircle className="w-8 h-8 text-blue-400" />
-                </div>
+          <div className="eyebrow mb-5">
+            <Heart className="w-3.5 h-3.5" /> Nossa Tribo
+          </div>
+          <h2 className="text-4xl md:text-6xl clash-title mb-4">Bem-vindo ao Clã</h2>
+          <div className="gold-rule max-w-xs mx-auto mb-10" />
+
+          {/* Painel da mensagem */}
+          <div className="panel-clash p-8 md:p-12 text-left">
+            <Quote className="w-10 h-10 text-primary/40 mb-4" />
+            <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed font-medium">
+              <p>
+                É com honra que recebemos cada guerreiro nesta fortaleza. Juntos, enfrentamos
+                desafios, conquistamos vitórias e construímos uma história que ninguém esquece.
+              </p>
+              <p>
+                Cooperação e trabalho em equipe são o coração do H4RD G4ME. Compartilhe sua
+                experiência, aprenda com os veteranos e forje amizades que duram além do jogo.
+              </p>
             </div>
+            <p className="mt-8 text-xl md:text-2xl font-heading text-primary italic text-center">
+              &quot;Que nossa jornada seja épica. Avante, guerreiros!&quot;
+            </p>
+          </div>
 
-            <h2 className="text-3xl md:text-4xl font-heading text-white mb-8">
-                Bem-Vindos ao Clã! 🎉
-            </h2>
-
-            <Card className="bg-[#1a1b26] border-2 border-[#2f3245] shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500"></div>
-                <CardContent className="p-8 md:p-10 text-slate-300 text-lg leading-relaxed font-medium">
-                    <p className="mb-6">
-                        É com alegria que recebemos todos vocês neste grupo. Juntos, vamos enfrentar desafios, conquistar vitórias e nos divertir muito.
-                    </p>
-                    <p className="mb-6">
-                        A cooperação e o trabalho em equipe são fundamentais para o sucesso do nosso clã. Compartilhem suas experiências, aprendam uns com os outros e construam amizades duradouras.
-                    </p>
-                    <p className="text-white font-bold text-xl italic">
-                        &quot;Que nossa jornada seja épica! Avante, guerreiros!&quot; 🛡️⚔️
-                    </p>
-                </CardContent>
-            </Card>
-
+          {/* Pilares */}
+          <div className="grid sm:grid-cols-3 gap-4 mt-8">
+            {PILLARS.map((p) => (
+              <div key={p.title} className="plaque p-6 flex flex-col items-center text-center group">
+                <div className="h-12 w-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <p.icon className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-white font-bold text-lg mb-1">{p.title}</h3>
+                <p className="text-muted-foreground text-sm">{p.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

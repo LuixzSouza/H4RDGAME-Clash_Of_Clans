@@ -58,7 +58,7 @@ export function MembrosFilters({
   };
 
   return (
-    <div className="bg-[#1e202b] p-3 md:p-4 rounded-xl border border-[#2f3245] shadow-lg space-y-4">
+    <div className="bg-card p-3 md:p-4 rounded-xl border border-border shadow-lg space-y-4">
       
       {/* Container Principal Flexível */}
       <div className="flex flex-col xl:flex-row gap-4 justify-between items-start xl:items-center">
@@ -68,15 +68,15 @@ export function MembrosFilters({
             
             {/* Campo de Busca (100% no mobile, fixo no desktop) */}
             <div className="relative w-full md:w-64 lg:w-72 shrink-0">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                     placeholder="Buscar nome ou tag..." 
-                    className="pl-10 bg-[#15161e] border-[#2f3245] text-white focus-visible:ring-blue-500 h-10 w-full" 
+                    className="pl-10 bg-background border-border text-white focus-visible:ring-primary h-10 w-full" 
                     value={searchTerm} 
                     onChange={(e) => setSearchTerm(e.target.value)} 
                 />
                 {searchTerm && (
-                    <button onClick={() => setSearchTerm("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white p-1">
+                    <button onClick={() => setSearchTerm("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-white p-1">
                         <X className="w-3 h-3"/>
                     </button>
                 )}
@@ -88,7 +88,7 @@ export function MembrosFilters({
                     variant={filterMode === 'all' ? 'secondary' : 'outline'} 
                     size="sm" 
                     onClick={() => setFilterMode('all')} 
-                    className={`h-10 md:h-9 text-xs border-[#2f3245] whitespace-nowrap px-4 ${filterMode === 'all' ? 'bg-slate-700 text-white' : 'bg-transparent text-slate-400 hover:bg-[#2f3245]'}`}
+                    className={`h-10 md:h-9 text-xs border-border whitespace-nowrap px-4 ${filterMode === 'all' ? 'bg-muted text-white' : 'bg-transparent text-muted-foreground hover:bg-accent'}`}
                 >
                     Todos
                 </Button>
@@ -97,7 +97,7 @@ export function MembrosFilters({
                     variant={filterMode === 'war' ? 'secondary' : 'outline'} 
                     size="sm" 
                     onClick={() => setFilterMode('war')} 
-                    className={`h-10 md:h-9 text-xs border-[#2f3245] whitespace-nowrap gap-1.5 px-4 ${filterMode === 'war' ? 'bg-green-900/40 text-green-400 border-green-900/50' : 'bg-transparent text-slate-400 hover:bg-[#2f3245]'}`}
+                    className={`h-10 md:h-9 text-xs border-border whitespace-nowrap gap-1.5 px-4 ${filterMode === 'war' ? 'bg-success/40 text-success border-success/50' : 'bg-transparent text-muted-foreground hover:bg-accent'}`}
                 >
                     <Shield className="w-3 h-3" /> Guerra
                 </Button>
@@ -106,7 +106,7 @@ export function MembrosFilters({
                     variant={filterMode === 'inactive' ? 'secondary' : 'outline'} 
                     size="sm" 
                     onClick={() => setFilterMode('inactive')} 
-                    className={`h-10 md:h-9 text-xs border-[#2f3245] whitespace-nowrap gap-1.5 px-4 ${filterMode === 'inactive' ? 'bg-red-900/40 text-red-400 border-red-900/50' : 'bg-transparent text-slate-400 hover:bg-[#2f3245]'}`}
+                    className={`h-10 md:h-9 text-xs border-border whitespace-nowrap gap-1.5 px-4 ${filterMode === 'inactive' ? 'bg-destructive/40 text-destructive border-destructive/50' : 'bg-transparent text-muted-foreground hover:bg-accent'}`}
                 >
                     <UserX className="w-3 h-3" /> Inativos
                 </Button>
@@ -114,15 +114,15 @@ export function MembrosFilters({
                 {/* Dropdown Mais Filtros */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" className="h-10 md:h-9 text-xs border-[#2f3245] bg-transparent text-slate-400 hover:bg-[#2f3245] gap-1.5 px-3">
+                        <Button variant="outline" size="sm" className="h-10 md:h-9 text-xs border-border bg-transparent text-muted-foreground hover:bg-accent gap-1.5 px-3">
                             <Filter className="w-3 h-3"/>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-[#1e202b] border-[#2f3245] text-slate-300">
+                    <DropdownMenuContent className="bg-card border-border text-muted-foreground">
                         <DropdownMenuLabel>Outros Filtros</DropdownMenuLabel>
-                        <DropdownMenuSeparator className="bg-[#2f3245]"/>
-                        <DropdownMenuItem onClick={() => setFilterMode('debt')} className="cursor-pointer hover:bg-[#252836]">
-                            <span className="w-2 h-2 rounded-full bg-yellow-500 mr-2"/>
+                        <DropdownMenuSeparator className="bg-accent"/>
+                        <DropdownMenuItem onClick={() => setFilterMode('debt')} className="cursor-pointer hover:bg-accent">
+                            <span className="w-2 h-2 rounded-full bg-primary mr-2"/>
                             Sem Tickets (0)
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -131,13 +131,13 @@ export function MembrosFilters({
         </div>
 
         {/* Separador Mobile Visual */}
-        <div className="h-px bg-[#2f3245] w-full xl:hidden"></div>
+        <div className="h-px bg-accent w-full xl:hidden"></div>
 
         {/* GRUPO 2: Controles e Ações (Wrap para telas médias) */}
         <div className="flex flex-wrap sm:flex-nowrap gap-3 items-center justify-between xl:justify-end w-full xl:w-auto">
              
              {/* Contador */}
-             <span className="text-xs text-slate-500 font-medium whitespace-nowrap mr-auto sm:mr-0">
+             <span className="text-xs text-muted-foreground font-medium whitespace-nowrap mr-auto sm:mr-0">
                 Exibindo <strong className="text-white">{filteredCount}</strong>/{totalCount}
              </span>
 
@@ -145,10 +145,10 @@ export function MembrosFilters({
                 
                 {/* Select de Ordenação */}
                 <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortOption)}>
-                    <SelectTrigger className="w-[140px] sm:w-[160px] bg-[#15161e] border-[#2f3245] text-white h-9 text-xs">
-                        <div className="flex items-center gap-2"><ArrowUpDown className="w-3 h-3 text-slate-400"/> <SelectValue /></div>
+                    <SelectTrigger className="w-[140px] sm:w-[160px] bg-background border-border text-white h-9 text-xs">
+                        <div className="flex items-center gap-2"><ArrowUpDown className="w-3 h-3 text-muted-foreground"/> <SelectValue /></div>
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                    <SelectContent className="bg-card border-border text-white">
                         <SelectItem value="role">Por Hierarquia</SelectItem>
                         <SelectItem value="th_desc">Maior TH (Forte)</SelectItem>
                         <SelectItem value="th_asc">Menor TH (Fraco)</SelectItem>
@@ -158,21 +158,21 @@ export function MembrosFilters({
                 </Select>
 
                 {/* Botões de Ação */}
-                <div className="flex gap-1 bg-[#15161e] rounded-lg border border-[#2f3245] p-1 shrink-0">
+                <div className="flex gap-1 bg-background rounded-lg border border-border p-1 shrink-0">
                     <Button 
                         variant="ghost" 
                         size="icon" 
                         onClick={handleCopyNames} 
-                        className="h-7 w-7 text-slate-400 hover:text-white hover:bg-[#2f3245]"
+                        className="h-7 w-7 text-muted-foreground hover:text-white hover:bg-accent"
                         title="Copiar lista"
                     >
-                        {copied ? <Check className="w-4 h-4 text-green-500"/> : <Copy className="w-4 h-4"/>}
+                        {copied ? <Check className="w-4 h-4 text-success"/> : <Copy className="w-4 h-4"/>}
                     </Button>
                     <Button 
                         variant="ghost" 
                         size="icon" 
                         onClick={handleExportCSV} 
-                        className="h-7 w-7 text-slate-400 hover:text-white hover:bg-[#2f3245]"
+                        className="h-7 w-7 text-muted-foreground hover:text-white hover:bg-accent"
                         title="Baixar CSV"
                     >
                         <Download className="w-4 h-4"/>
@@ -180,12 +180,12 @@ export function MembrosFilters({
                 </div>
 
                 {/* Toggle View (Esconde em telas muito pequenas se necessário, ou mantém) */}
-                <div className="flex gap-1 bg-[#15161e] rounded-lg border border-[#2f3245] p-1 shrink-0">
+                <div className="flex gap-1 bg-background rounded-lg border border-border p-1 shrink-0">
                     <Button 
                         size="icon" 
                         variant="ghost" 
                         onClick={() => setViewMode('table')} 
-                        className={`h-7 w-7 ${viewMode === 'table' ? 'bg-[#2f3245] text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
+                        className={`h-7 w-7 ${viewMode === 'table' ? 'bg-accent text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
                     >
                         <List className="w-4 h-4"/>
                     </Button>
@@ -193,7 +193,7 @@ export function MembrosFilters({
                         size="icon" 
                         variant="ghost" 
                         onClick={() => setViewMode('grid')} 
-                        className={`h-7 w-7 ${viewMode === 'grid' ? 'bg-[#2f3245] text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
+                        className={`h-7 w-7 ${viewMode === 'grid' ? 'bg-accent text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
                     >
                         <LayoutGrid className="w-4 h-4"/>
                     </Button>

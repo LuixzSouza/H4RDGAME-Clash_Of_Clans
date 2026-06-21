@@ -88,11 +88,11 @@ export function MemberActionMenu({ member, currentUserRole, onEdit, onDelete }: 
             <Tooltip>
                 <TooltipTrigger asChild>
                     <div className="flex justify-end px-2 opacity-40 cursor-not-allowed group">
-                        <Lock className="w-4 h-4 text-slate-500 group-hover:text-red-400 transition-colors"/>
+                        <Lock className="w-4 h-4 text-muted-foreground group-hover:text-destructive transition-colors"/>
                     </div>
                 </TooltipTrigger>
-                <TooltipContent className="bg-[#1e202b] border-red-900/50 text-slate-300 text-xs p-3 shadow-xl z-50">
-                    <p className="font-bold text-red-400 mb-1 flex items-center gap-1">
+                <TooltipContent className="bg-popover border-destructive/50 text-popover-foreground text-xs p-3 shadow-xl z-50">
+                    <p className="font-bold text-destructive mb-1 flex items-center gap-1">
                         <ShieldAlert className="w-3 h-3" /> Acesso Negado
                     </p>
                     <p>Hierarquia insuficiente.</p>
@@ -106,71 +106,71 @@ export function MemberActionMenu({ member, currentUserRole, onEdit, onDelete }: 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0 text-slate-400 hover:text-white hover:bg-[#2f3245] data-[state=open]:bg-[#2f3245] data-[state=open]:text-white transition-colors">
+        <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent data-[state=open]:bg-accent data-[state=open]:text-foreground transition-colors">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       
-      <DropdownMenuContent align="end" className="bg-[#1e202b] border-[#2f3245] text-slate-300 w-64 shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
-        
+      <DropdownMenuContent align="end" className="bg-popover border-border text-popover-foreground w-64 shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
+
         {/* CABEÇALHO */}
-        <DropdownMenuLabel className="text-xs font-bold text-slate-500 uppercase tracking-wider px-2 flex justify-between items-center bg-[#15161e] rounded py-1.5 mb-1">
+        <DropdownMenuLabel className="text-xs font-bold text-muted-foreground uppercase tracking-wider px-2 flex justify-between items-center bg-background rounded py-1.5 mb-1">
             <span className="flex items-center gap-1.5">
-                <Shield className="w-3 h-3 text-emerald-500" /> Gestão
+                <Shield className="w-3 h-3 text-success" /> Gestão
             </span>
-            <span className="text-[10px] font-mono text-slate-600 bg-[#1e202b] px-1.5 rounded">{member.tag}</span>
+            <span className="text-[10px] font-mono text-muted-foreground bg-card px-1.5 rounded">{member.tag}</span>
         </DropdownMenuLabel>
         
         <DropdownMenuGroup>
-            <DropdownMenuItem onClick={copyTag} className="cursor-pointer hover:bg-[#2f3245] focus:bg-[#2f3245] gap-2 rounded-md transition-colors">
-                <Copy className={`w-4 h-4 ${copied ? "text-green-500" : "text-blue-400"}`} /> 
+            <DropdownMenuItem onClick={copyTag} className="cursor-pointer hover:bg-accent focus:bg-accent gap-2 rounded-md transition-colors">
+                <Copy className={`w-4 h-4 ${copied ? "text-success" : "text-primary"}`} />
                 {copied ? "Copiado!" : "Copiar Tag"}
             </DropdownMenuItem>
 
             {member.phone && (
-                <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer hover:bg-[#2f3245] focus:bg-[#2f3245] gap-2 rounded-md transition-colors">
-                    <Phone className="w-4 h-4 text-green-400" /> WhatsApp
-                    <ExternalLink className="w-3 h-3 text-slate-600 ml-auto" />
+                <DropdownMenuItem onClick={openWhatsApp} className="cursor-pointer hover:bg-accent focus:bg-accent gap-2 rounded-md transition-colors">
+                    <Phone className="w-4 h-4 text-success" /> WhatsApp
+                    <ExternalLink className="w-3 h-3 text-muted-foreground ml-auto" />
                 </DropdownMenuItem>
             )}
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator className="bg-[#2f3245] my-1 opacity-50" />
+        <DropdownMenuSeparator className="bg-border my-1 opacity-50" />
 
-        <DropdownMenuLabel className="text-[9px] font-bold text-slate-600 uppercase tracking-widest px-2 py-1">Controle</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest px-2 py-1">Controle</DropdownMenuLabel>
         <DropdownMenuGroup>
-            <DropdownMenuItem onClick={handleMarkSeen} className="cursor-pointer hover:bg-[#2f3245] focus:bg-[#2f3245] gap-2 rounded-md transition-colors">
-                <Eye className="w-4 h-4 text-emerald-400" /> 
+            <DropdownMenuItem onClick={handleMarkSeen} className="cursor-pointer hover:bg-accent focus:bg-accent gap-2 rounded-md transition-colors">
+                <Eye className="w-4 h-4 text-success" />
                 <div className="flex flex-col">
                     <span className="font-medium">Confirmar Presença</span>
-                    <span className="text-[9px] text-slate-500 leading-none">Reseta dias offline</span>
+                    <span className="text-[9px] text-muted-foreground leading-none">Reseta dias offline</span>
                 </div>
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => onEdit(member)} className="cursor-pointer hover:bg-[#2f3245] focus:bg-[#2f3245] gap-2 rounded-md text-white transition-colors">
-                <Edit className="w-4 h-4 text-yellow-500" /> Editar Dados
+            <DropdownMenuItem onClick={() => onEdit(member)} className="cursor-pointer hover:bg-accent focus:bg-accent gap-2 rounded-md text-white transition-colors">
+                <Edit className="w-4 h-4 text-primary" /> Editar Dados
             </DropdownMenuItem>
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator className="bg-[#2f3245] my-1 opacity-50" />
+        <DropdownMenuSeparator className="bg-border my-1 opacity-50" />
         
         {/* GRUPO 3: ZONA DE PERIGO */}
         {/* Se o alvo for LÍDER, esconde o botão de expulsar para evitar auto-delete acidental */}
         {!isTargetLeader ? (
             <DropdownMenuItem 
                 onClick={() => onDelete(member.id)} 
-                className="group cursor-pointer hover:bg-red-950/30 focus:bg-red-950/30 gap-2 rounded-md mt-1 transition-all"
+                className="group cursor-pointer hover:bg-destructive/15 focus:bg-destructive/15 gap-2 rounded-md mt-1 transition-all"
             >
-                <div className="p-1.5 bg-red-500/10 rounded group-hover:bg-red-600 text-red-500 group-hover:text-white transition-colors">
+                <div className="p-1.5 bg-destructive/10 rounded group-hover:bg-destructive text-destructive group-hover:text-destructive-foreground transition-colors">
                     <Trash2 className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col">
-                    <span className="text-red-500 font-bold text-xs group-hover:text-red-400">EXPULSAR MEMBRO</span>
-                    <span className="text-[9px] text-red-500/60 group-hover:text-red-400/80">Ação irreversível</span>
+                    <span className="text-destructive font-bold text-xs group-hover:text-destructive/80">EXPULSAR MEMBRO</span>
+                    <span className="text-[9px] text-destructive/60 group-hover:text-destructive/80">Ação irreversível</span>
                 </div>
             </DropdownMenuItem>
         ) : (
-            <div className="px-2 py-1 text-[9px] text-slate-600 text-center italic">
+            <div className="px-2 py-1 text-[9px] text-muted-foreground text-center italic">
                 Líderes não podem ser expulsos.
             </div>
         )}

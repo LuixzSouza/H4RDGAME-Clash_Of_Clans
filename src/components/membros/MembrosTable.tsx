@@ -18,15 +18,15 @@ export function MembrosTable({ members, currentUserRole, onEdit, onDelete, getDa
   }
 
   return (
-    <div className="rounded-xl border border-[#2f3245] bg-[#1e202b] overflow-hidden shadow-xl">
+    <div className="panel-clash overflow-hidden shadow-xl">
       <Table>
-        <TableHeader className="bg-[#15161e] border-b border-[#2f3245]">
-          <TableRow className="hover:bg-transparent border-[#2f3245]">
-            <TableHead className="text-slate-500 text-xs w-[280px] pl-6">GUERREIRO</TableHead>
-            <TableHead className="text-slate-500 text-xs">CARGO</TableHead>
-            <TableHead className="text-center text-slate-500 text-xs">ATIVIDADE</TableHead>
-            <TableHead className="text-center text-slate-500 text-xs">WAR STATUS</TableHead>
-            <TableHead className="text-right text-slate-500 text-xs pr-6">AÇÕES</TableHead>
+        <TableHeader className="bg-background border-b border-border">
+          <TableRow className="hover:bg-transparent border-border">
+            <TableHead className="text-muted-foreground text-xs w-[280px] pl-6">GUERREIRO</TableHead>
+            <TableHead className="text-muted-foreground text-xs">CARGO</TableHead>
+            <TableHead className="text-center text-muted-foreground text-xs">ATIVIDADE</TableHead>
+            <TableHead className="text-center text-muted-foreground text-xs">WAR STATUS</TableHead>
+            <TableHead className="text-right text-muted-foreground text-xs pr-6">AÇÕES</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -16,7 +16,7 @@ interface CreateStrategyDialogProps {
 export function CreateStrategyDialog({ isOpen, onOpenChange, onConfirm }: CreateStrategyDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1e202b] border-[#2f3245] text-white">
+      <DialogContent className="bg-card border-border text-white">
         <DialogHeader>
             <DialogTitle>Registrar Meta</DialogTitle>
         </DialogHeader>
@@ -24,13 +24,13 @@ export function CreateStrategyDialog({ isOpen, onOpenChange, onConfirm }: Create
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                     <Label>Nome da Estratégia</Label>
-                    <Input name="title" placeholder="Ex: Queen Walk Hybrid" className="bg-[#15161e] border-[#2f3245] text-white" required/>
+                    <Input name="title" placeholder="Ex: Queen Walk Hybrid" className="bg-background border-border text-white" required/>
                 </div>
                 <div className="space-y-2">
                     <Label>Nível CV (TH)</Label>
                     <Select name="thLevel" defaultValue="16">
-                        <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white"><SelectValue /></SelectTrigger>
-                        <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                        <SelectTrigger className="bg-background border-border text-white"><SelectValue /></SelectTrigger>
+                        <SelectContent className="bg-card border-border text-white">
                             {[16,15,14,13,12,11,10,9].map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)}
                         </SelectContent>
                     </Select>
@@ -41,8 +41,8 @@ export function CreateStrategyDialog({ isOpen, onOpenChange, onConfirm }: Create
                 <div className="space-y-2">
                     <Label>Dificuldade</Label>
                     <Select name="difficulty" defaultValue="Médio">
-                        <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white"><SelectValue /></SelectTrigger>
-                        <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                        <SelectTrigger className="bg-background border-border text-white"><SelectValue /></SelectTrigger>
+                        <SelectContent className="bg-card border-border text-white">
                             <SelectItem value="Fácil">Fácil</SelectItem>
                             <SelectItem value="Médio">Médio</SelectItem>
                             <SelectItem value="Difícil">Difícil</SelectItem>
@@ -51,18 +51,18 @@ export function CreateStrategyDialog({ isOpen, onOpenChange, onConfirm }: Create
                 </div>
                 <div className="space-y-2">
                     <Label>Link YouTube (Opcional)</Label>
-                    <Input name="videoUrl" placeholder="https://youtube.com/..." className="bg-[#15161e] border-[#2f3245] text-white"/>
+                    <Input name="videoUrl" placeholder="https://youtube.com/..." className="bg-background border-border text-white"/>
                 </div>
             </div>
 
             <div className="space-y-2">
                 <Label>Descrição Tática</Label>
-                <Textarea name="description" placeholder="Como executar o ataque..." className="bg-[#15161e] border-[#2f3245] text-white" required/>
+                <Textarea name="description" placeholder="Como executar o ataque..." className="bg-background border-border text-white" required/>
             </div>
 
             <div className="space-y-2">
                 <Label>Composição (Resumo)</Label>
-                <Textarea name="army" placeholder="Ex: 5 Curadoras, 14 Mineiros, 13 Corredores..." className="bg-[#15161e] border-[#2f3245] text-white h-20" required/>
+                <Textarea name="army" placeholder="Ex: 5 Curadoras, 14 Mineiros, 13 Corredores..." className="bg-background border-border text-white h-20" required/>
             </div>
 
             <DialogFooter>

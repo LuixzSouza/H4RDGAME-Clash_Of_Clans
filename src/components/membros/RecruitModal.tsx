@@ -90,12 +90,12 @@ Acesse: painel.h4rdgame.com`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1e202b] border-[#2f3245] text-white sm:max-w-[500px] shadow-2xl">
+      <DialogContent className="bg-gradient-to-b from-card to-background border-2 border-primary/25 text-white sm:max-w-[500px] shadow-2xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl text-yellow-500">
+          <DialogTitle className="flex items-center gap-2 text-xl text-primary">
             <UserPlusIcon /> Recrutar Guerreiro
           </DialogTitle>
-          <DialogDescription className="text-slate-400">
+          <DialogDescription className="text-muted-foreground">
             Cadastre os dados do novo membro para liberar o acesso ao quartel.
           </DialogDescription>
         </DialogHeader>
@@ -106,13 +106,13 @@ Acesse: painel.h4rdgame.com`;
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                    <Label className="flex items-center gap-2 text-xs uppercase font-bold text-slate-400">
-                        <Hash className="w-3 h-3 text-blue-500"/> Tag (#)
+                    <Label className="flex items-center gap-2 text-xs uppercase font-bold text-muted-foreground">
+                        <Hash className="w-3 h-3 text-primary"/> Tag (#)
                     </Label>
                     <button 
                         type="button" 
                         onClick={generateRandomTag} 
-                        className="text-[10px] text-blue-400 hover:text-white flex items-center gap-1 transition-colors"
+                        className="text-[10px] text-primary hover:text-white flex items-center gap-1 transition-colors"
                         title="Gerar Tag Aleatória"
                     >
                         <RefreshCw className="w-3 h-3"/> Gerar
@@ -123,21 +123,21 @@ Acesse: painel.h4rdgame.com`;
                     value={tag} 
                     onChange={handleTagChange} 
                     placeholder="#P028..." 
-                    className="bg-[#15161e] border-[#2f3245] text-white font-mono uppercase focus-visible:ring-yellow-500" 
+                    className="bg-background border-border text-white font-mono uppercase focus-visible:ring-primary" 
                     required 
                     maxLength={12}
                 />
             </div>
             <div className="space-y-2">
-                <Label className="flex items-center gap-2 text-xs uppercase font-bold text-slate-400">
-                    <Users className="w-3 h-3 text-green-500"/> Nickname
+                <Label className="flex items-center gap-2 text-xs uppercase font-bold text-muted-foreground">
+                    <Users className="w-3 h-3 text-success"/> Nickname
                 </Label>
                 <Input 
                     name="name" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ex: KingSlayer" 
-                    className="bg-[#15161e] border-[#2f3245] text-white focus-visible:ring-yellow-500" 
+                    className="bg-background border-border text-white focus-visible:ring-primary" 
                     required 
                 />
             </div>
@@ -146,28 +146,28 @@ Acesse: painel.h4rdgame.com`;
           {/* Linha 2: Cargo e TH */}
           <div className="grid grid-cols-2 gap-4">
              <div className="space-y-2">
-                <Label className="flex items-center gap-2 text-xs uppercase font-bold text-slate-400">
-                    <Crown className="w-3 h-3 text-yellow-600"/> Cargo Inicial
+                <Label className="flex items-center gap-2 text-xs uppercase font-bold text-muted-foreground">
+                    <Crown className="w-3 h-3 text-primary"/> Cargo Inicial
                 </Label>
                 <Select name="role" defaultValue="Membro">
-                  <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white focus:ring-yellow-500">
+                  <SelectTrigger className="bg-background border-border text-white focus:ring-primary">
                       <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                  <SelectContent className="bg-card border-border text-white">
                     <SelectItem value="Membro">Membro</SelectItem>
                     <SelectItem value="Ancião">Ancião</SelectItem>
                   </SelectContent>
                 </Select>
              </div>
              <div className="space-y-2">
-                <Label className="flex items-center gap-2 text-xs uppercase font-bold text-slate-400">
-                    <Shield className="w-3 h-3 text-blue-400"/> Centro de Vila
+                <Label className="flex items-center gap-2 text-xs uppercase font-bold text-muted-foreground">
+                    <Shield className="w-3 h-3 text-primary"/> Centro de Vila
                 </Label>
                 <Select name="thLevel" defaultValue="12">
-                  <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white focus:ring-yellow-500">
+                  <SelectTrigger className="bg-background border-border text-white focus:ring-primary">
                       <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                  <SelectContent className="bg-card border-border text-white">
                     {[9,10,11,12,13,14,15,16].map(level => (
                         <SelectItem key={level} value={level.toString()}>TH {level}</SelectItem>
                     ))}
@@ -178,21 +178,21 @@ Acesse: painel.h4rdgame.com`;
 
           {/* Linha 3: WhatsApp */}
           <div className="space-y-2">
-             <Label className="flex items-center gap-2 text-xs uppercase font-bold text-slate-400">
-                <Smartphone className="w-3 h-3 text-green-400"/> WhatsApp (Opcional)
+             <Label className="flex items-center gap-2 text-xs uppercase font-bold text-muted-foreground">
+                <Smartphone className="w-3 h-3 text-success"/> WhatsApp (Opcional)
              </Label>
-             <Input name="phone" placeholder="(11) 99999-9999" className="bg-[#15161e] border-[#2f3245] text-white" />
+             <Input name="phone" placeholder="(11) 99999-9999" className="bg-background border-border text-white" />
           </div>
 
           {/* Área de Segurança (Senha) */}
-          <div className="bg-gradient-to-r from-[#15161e] to-[#0f1116] p-4 rounded-lg border border-[#2f3245] space-y-3 relative overflow-hidden group">
+          <div className="bg-gradient-to-r from-background to-background p-4 rounded-lg border border-border space-y-3 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Wand2 className="w-24 h-24 text-yellow-500 -rotate-12"/>
+                <Wand2 className="w-24 h-24 text-primary -rotate-12"/>
             </div>
             
             <div className="flex justify-between items-center relative z-10">
-              <Label className="text-yellow-500 font-bold text-sm tracking-wide">CREDENCIAL DE ACESSO</Label>
-              <button type="button" onClick={generatePassword} className="text-[10px] text-blue-400 hover:text-white transition-colors flex items-center gap-1 bg-blue-900/20 px-2 py-1 rounded">
+              <Label className="text-primary font-bold text-sm tracking-wide">CREDENCIAL DE ACESSO</Label>
+              <button type="button" onClick={generatePassword} className="text-[10px] text-primary hover:text-white transition-colors flex items-center gap-1 bg-primary/20 px-2 py-1 rounded">
                   <Wand2 className="w-3 h-3"/> Gerar Nova
               </button>
             </div>
@@ -201,11 +201,11 @@ Acesse: painel.h4rdgame.com`;
                 name="password" 
                 value={generatedPassword} 
                 readOnly 
-                className="bg-black/50 border-[#2f3245] text-white font-mono text-center tracking-widest text-lg h-12 focus-visible:ring-0" 
+                className="bg-black/50 border-border text-white font-mono text-center tracking-widest text-lg h-12 focus-visible:ring-0" 
               />
               <Button 
                 type="button" 
-                className={`h-12 w-12 transition-all ${copiedPass ? "bg-green-600 text-white" : "bg-[#2f3245] hover:bg-[#3a3f55]"}`}
+                className={`h-12 w-12 transition-all ${copiedPass ? "bg-success text-white" : "bg-accent hover:bg-accent"}`}
                 onClick={() => copyToClipboard(generatedPassword, setCopiedPass)}
               >
                 {copiedPass ? <Check className="w-5 h-5"/> : <Copy className="w-5 h-5"/>}
@@ -216,11 +216,11 @@ Acesse: painel.h4rdgame.com`;
           {/* Área de Boas Vindas (Copia Rápida) */}
           <div className="space-y-2">
              <div className="flex justify-between items-end">
-                <Label className="text-xs uppercase font-bold text-slate-500">Texto de Boas-Vindas</Label>
+                <Label className="text-xs uppercase font-bold text-muted-foreground">Texto de Boas-Vindas</Label>
                 <button 
                     type="button" 
                     onClick={() => copyToClipboard(welcomeMessage, setCopiedWelcome)}
-                    className="text-[10px] text-slate-400 hover:text-green-400 transition-colors flex items-center gap-1"
+                    className="text-[10px] text-muted-foreground hover:text-success transition-colors flex items-center gap-1"
                 >
                     {copiedWelcome ? <><Check className="w-3 h-3"/> Copiado!</> : <><Copy className="w-3 h-3"/> Copiar Texto</>}
                 </button>
@@ -228,12 +228,12 @@ Acesse: painel.h4rdgame.com`;
              <Textarea 
                 value={welcomeMessage} 
                 readOnly 
-                className="bg-[#0b0d14] border-[#2f3245] text-slate-400 text-xs font-mono h-20 resize-none focus-visible:ring-0"
+                className="bg-background border-border text-muted-foreground text-xs font-mono h-20 resize-none focus-visible:ring-0"
              />
           </div>
 
           <DialogFooter className="pt-2">
-             <Button type="submit" className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 w-full font-bold h-12 shadow-lg border border-green-500/20 text-white">
+             <Button type="submit" className="bg-gradient-to-r from-success to-success hover:from-success hover:to-success w-full font-bold h-12 shadow-lg border border-success/20 text-white">
                 <Users className="w-4 h-4 mr-2"/> Confirmar Recrutamento
              </Button>
           </DialogFooter>

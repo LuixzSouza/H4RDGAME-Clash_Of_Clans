@@ -3,9 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { createLog } from "@/app/actions";
+import { requireAdmin, requireAuth } from "@/lib/auth";
 
 export async function getEvents() {
   try {
+    await requireAuth();
     return await prisma.event.findMany({ orderBy: { createdAt: 'desc' } });
   } catch (error) {
     console.error("Erro ao buscar eventos:", error);
@@ -15,6 +17,7 @@ export async function getEvents() {
 
 export async function createEvent(formData: FormData) {
   try {
+    await requireAdmin();
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const type = formData.get("type") as string;
@@ -35,6 +38,7 @@ export async function createEvent(formData: FormData) {
 
 export async function deleteEvent(id: string) {
   try {
+    await requireAdmin();
     await prisma.event.delete({ where: { id } });
     revalidatePath("/dashboard/eventos");
     return { success: true };

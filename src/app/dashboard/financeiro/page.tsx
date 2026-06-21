@@ -140,8 +140,8 @@ export default function FinanceiroPage() {
   // --- LOADING UI ---
   if (loading) {
     return (
-        <div className="flex flex-col items-center justify-center h-[60vh] text-slate-500 gap-4 animate-pulse">
-            <Loader2 className="w-12 h-12 text-yellow-600 animate-spin" />
+        <div className="flex flex-col items-center justify-center h-[60vh] text-muted-foreground gap-4 animate-pulse">
+            <Loader2 className="w-12 h-12 text-primary animate-spin" />
             <p className="text-sm font-medium tracking-widest uppercase">Acessando Cofre do Clã...</p>
         </div>
     );
@@ -170,12 +170,12 @@ export default function FinanceiroPage() {
         
         {/* Estado Vazio */}
         {activeEvents.length === 0 && (
-            <div className="col-span-full border-2 border-dashed border-[#2f3245] rounded-xl p-12 md:p-16 flex flex-col items-center justify-center text-slate-500 bg-[#1e202b]/30">
-                <div className="bg-[#15161e] p-4 rounded-full mb-4">
-                    <DollarSign className="w-10 h-10 opacity-30 text-yellow-500"/>
+            <div className="col-span-full border-2 border-dashed border-border rounded-xl p-12 md:p-16 flex flex-col items-center justify-center text-muted-foreground bg-card/30">
+                <div className="bg-background p-4 rounded-full mb-4">
+                    <DollarSign className="w-10 h-10 opacity-30 text-primary"/>
                 </div>
-                <h3 className="text-lg font-bold text-slate-300">Nenhum evento ativo</h3>
-                <p className="text-sm text-slate-500 text-center max-w-sm mt-1">
+                <h3 className="text-lg font-bold text-muted-foreground">Nenhum evento ativo</h3>
+                <p className="text-sm text-muted-foreground text-center max-w-sm mt-1">
                     Crie um novo evento (Sorteio, Vaquinha, Bolão) para começar a gerenciar as arrecadações.
                 </p>
             </div>

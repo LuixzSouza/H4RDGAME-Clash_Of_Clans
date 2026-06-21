@@ -5,11 +5,30 @@ const WALL_PATTERN = `data:image/svg+xml,%3Csvg width='100' height='100' viewBox
 export function LoginBackground() {
   return (
     <>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0b0d14] to-[#0b0d14] -z-10" />
-      <div 
-        className="absolute inset-0 -z-10" 
-        style={{ backgroundImage: `url("${WALL_PATTERN}")` }}
-      />
+      {/* Brilho dourado central + escurecimento das bordas */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/15 via-background to-background -z-10" />
+      {/* Glows laterais (lado das tochas) */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-72 h-[80%] bg-primary/10 blur-[120px] -z-10 hidden md:block" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-72 h-[80%] bg-primary/10 blur-[120px] -z-10 hidden md:block" />
+      {/* Textura de muralha */}
+      <div className="absolute inset-0 -z-10" style={{ backgroundImage: `url("${WALL_PATTERN}")` }} />
+      {/* Vinheta inferior */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent -z-10" />
+
+      {/* Brasas flutuantes pela cena */}
+      {[
+        { left: "12%", delay: "0s", dur: "5s" },
+        { left: "22%", delay: "1.5s", dur: "6s" },
+        { left: "78%", delay: "0.8s", dur: "5.5s" },
+        { left: "88%", delay: "2.2s", dur: "6.5s" },
+        { left: "50%", delay: "3s", dur: "7s" },
+      ].map((p, i) => (
+        <span
+          key={i}
+          className="absolute bottom-24 w-1 h-1 rounded-full bg-amber-400/70 blur-[1px] -z-10"
+          style={{ left: p.left, animation: `ember-rise ${p.dur} ease-out infinite`, animationDelay: p.delay }}
+        />
+      ))}
     </>
   );
 }

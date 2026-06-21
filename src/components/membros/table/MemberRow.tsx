@@ -18,10 +18,10 @@ interface MemberRowProps {
 // Helpers
 const getRoleBadge = (role: string) => {
   switch(role) {
-    case "LIDER": return "bg-red-500/10 text-red-400 border-red-500/20";
-    case "COLIDER": return "bg-orange-500/10 text-orange-400 border-orange-500/20";
-    case "ANCIAO": return "bg-blue-500/10 text-blue-400 border-blue-500/20";
-    default: return "bg-slate-800 text-slate-400 border-slate-700";
+    case "LIDER": return "bg-primary/15 text-primary border-primary/40";
+    case "COLIDER": return "bg-primary/10 text-primary/80 border-primary/25";
+    case "ANCIAO": return "bg-secondary text-foreground/80 border-border";
+    default: return "bg-muted text-muted-foreground border-border";
   }
 };
 
@@ -41,19 +41,19 @@ export function MemberRow({ member, currentUserRole, onEdit, onDelete, getDaysOf
   const isInGroup = !!member.phone; 
 
   return (
-    <TableRow className={`border-[#2f3245] transition-colors group ${isInactive ? 'bg-red-950/10 hover:bg-red-950/20' : 'hover:bg-[#252836]'}`}>
+    <TableRow className={`border-border transition-colors group ${isInactive ? 'bg-destructive/5 hover:bg-destructive/10' : 'hover:bg-accent'}`}>
       
       {/* Coluna GUERREIRO */}
       <TableCell className="py-4 pl-6">
         <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10 border border-[#2f3245] bg-[#15161e] shadow-sm">
+          <Avatar className="h-10 w-10 border border-border bg-background shadow-sm">
             <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${member.avatarSeed || member.name}`} />
-            <AvatarFallback className="bg-zinc-800 text-zinc-400 text-xs">{member.name.substring(0,2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className="bg-muted text-muted-foreground text-xs">{member.name.substring(0,2).toUpperCase()}</AvatarFallback>
           </Avatar>
           
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className={`font-bold truncate max-w-[140px] ${member.role === 'LIDER' ? 'text-red-400' : 'text-zinc-100'}`}>
+              <span className={`font-bold truncate max-w-[140px] ${member.role === 'LIDER' ? 'text-primary' : 'text-foreground'}`}>
                 {member.name}
               </span>
               
@@ -65,17 +65,17 @@ export function MemberRow({ member, currentUserRole, onEdit, onDelete, getDaysOf
                         href={getWhatsAppLink(member.phone!)}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-green-500 hover:text-green-400 transition-colors bg-green-500/10 p-1 rounded-md"
+                        className="text-success hover:text-success/80 transition-colors bg-success/10 p-1 rounded-md"
                       >
                         <MessageCircle className="w-3.5 h-3.5" />
                       </a>
                     ) : (
-                      <div className="text-slate-600 bg-slate-800/50 p-1 rounded-md cursor-help opacity-50 hover:opacity-100 transition-opacity">
+                      <div className="text-muted-foreground bg-muted/50 p-1 rounded-md cursor-help opacity-50 hover:opacity-100 transition-opacity">
                          <XCircle className="w-3.5 h-3.5" />
                       </div>
                     )}
                   </TooltipTrigger>
-                  <TooltipContent className="bg-black border-slate-800 text-white text-xs">
+                  <TooltipContent className="bg-popover border-border text-popover-foreground text-xs">
                     {isInGroup ? `WhatsApp: ${member.phone}` : "Sem WhatsApp cadastrado"}
                   </TooltipContent>
                 </Tooltip>
@@ -83,10 +83,10 @@ export function MemberRow({ member, currentUserRole, onEdit, onDelete, getDaysOf
             </div>
             
             <div className="flex items-center gap-2 mt-0.5">
-              <Badge variant="secondary" className="text-[9px] h-4 px-1 bg-[#0c1216] border-[#2f3245] text-slate-500 hover:bg-[#0c1216]">
+              <Badge variant="secondary" className="text-[9px] h-4 px-1 bg-background border-border text-muted-foreground hover:bg-background">
                 TH {member.thLevel}
               </Badge>
-              <span className="text-[10px] text-slate-600 font-mono tracking-tight">{member.tag}</span>
+              <span className="text-[10px] text-muted-foreground font-mono tracking-tight">{member.tag}</span>
             </div>
           </div>
         </div>
@@ -103,17 +103,17 @@ export function MemberRow({ member, currentUserRole, onEdit, onDelete, getDaysOf
       <TableCell className="text-center">
         <div className="flex flex-col items-center justify-center">
             <div className={`flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full border ${
-              daysOff === 0 
-                ? 'text-emerald-400 bg-emerald-500/5 border-emerald-500/20' 
-                : isInactive 
-                  ? 'text-red-400 bg-red-500/10 border-red-500/30 animate-pulse' 
-                  : 'text-slate-400 border-transparent'
+              daysOff === 0
+                ? 'text-success bg-success/5 border-success/20'
+                : isInactive
+                  ? 'text-destructive bg-destructive/10 border-destructive/30 animate-pulse'
+                  : 'text-muted-foreground border-transparent'
             }`}>
-              <div className={`w-1.5 h-1.5 rounded-full ${daysOff === 0 ? 'bg-emerald-500' : isInactive ? 'bg-red-500' : 'bg-slate-500'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full ${daysOff === 0 ? 'bg-success' : isInactive ? 'bg-destructive' : 'bg-muted-foreground'}`} />
               {daysOff === 0 ? "Online Hoje" : `${daysOff} dias off`}
             </div>
             {isInactive && (
-                <span className="text-[9px] text-red-500 font-bold uppercase tracking-wider mt-1">Expulsar</span>
+                <span className="text-[9px] text-destructive font-bold uppercase tracking-wider mt-1">Expulsar</span>
             )}
         </div>
       </TableCell>

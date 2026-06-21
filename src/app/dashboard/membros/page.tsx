@@ -147,7 +147,7 @@ export default function MembrosPage() {
 
   // --- RENDERIZAÇÃO ---
   return (
-    <div className="p-4 md:p-6 space-y-8 min-h-screen bg-[#0b0d14]">
+    <div className="p-4 md:p-6 space-y-8 min-h-screen bg-background">
       
       <MembersHeader 
         isHighCommand={isHighCommand} // Botões globais ainda usam boolean
@@ -171,8 +171,8 @@ export default function MembrosPage() {
 
       {loading ? (
          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
-            <p className="text-slate-500 animate-pulse">Carregando dados do servidor...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <p className="text-muted-foreground animate-pulse">Carregando dados do servidor...</p>
          </div>
       ) : (
          viewMode === 'table' ? (

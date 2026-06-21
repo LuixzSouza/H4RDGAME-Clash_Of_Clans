@@ -1,45 +1,47 @@
 import Link from "next/link";
-import { Swords, Wallet } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Swords, Wallet, Users, CalendarDays, ArrowRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface QuickLinksProps {
   isAdmin: boolean;
 }
 
+type QuickLink = {
+  href: string;
+  icon: LucideIcon;
+  title: string;
+  admin: string;
+  member: string;
+};
+
+const LINKS: QuickLink[] = [
+  { href: "/dashboard/guerra", icon: Swords, title: "Sala de Guerra", admin: "Gerenciar lista de presença", member: "Verificar escalação" },
+  { href: "/dashboard/financeiro", icon: Wallet, title: "Cofre do Clã", admin: "Baixa de pagamentos", member: "Comprar cotas da Skin" },
+  { href: "/dashboard/membros", icon: Users, title: "Efetivo", admin: "Gerenciar guerreiros", member: "Ver o clã" },
+  { href: "/dashboard/eventos", icon: CalendarDays, title: "Eventos", admin: "Criar avisos e datas", member: "Calendário do clã" },
+];
+
 export function QuickLinks({ isAdmin }: QuickLinksProps) {
   return (
     <div className="grid sm:grid-cols-2 gap-4">
-        <Link href="/dashboard/guerra" className="group block">
-            <Card className="bg-[#1a1b26] border-2 border-[#2f3245] hover:border-red-500 transition-all cursor-pointer h-full shadow-lg hover:shadow-red-900/20">
-                <CardContent className="p-6 flex items-center justify-between">
-                    <div>
-                        <h3 className="text-white font-bold text-lg group-hover:text-red-400 transition-colors">Sala de Guerra</h3>
-                        <p className="text-slate-500 text-xs mt-1">
-                            {isAdmin ? "Gerenciar lista de presença" : "Verificar escalação"}
-                        </p>
-                    </div>
-                    <div className="h-12 w-12 bg-[#2b1616] rounded-full flex items-center justify-center border border-[#4a2020] group-hover:scale-110 transition-transform shadow-lg">
-                        <Swords className="text-red-500 w-6 h-6" />
-                    </div>
-                </CardContent>
-            </Card>
+      {LINKS.map((l) => (
+        <Link key={l.href} href={l.href} className="group block">
+          <div className="panel-clash p-5 h-full flex items-center justify-between hover:-translate-y-1 hover:border-primary/50 transition-all duration-300">
+            <div className="flex items-center gap-4">
+              <div className="h-12 w-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                <l.icon className="text-primary w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-lg group-hover:text-primary transition-colors leading-tight">
+                  {l.title}
+                </h3>
+                <p className="text-muted-foreground text-xs mt-1">{isAdmin ? l.admin : l.member}</p>
+              </div>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
+          </div>
         </Link>
-
-        <Link href="/dashboard/financeiro" className="group block">
-            <Card className="bg-[#1a1b26] border-2 border-[#2f3245] hover:border-green-500 transition-all cursor-pointer h-full shadow-lg hover:shadow-green-900/20">
-                <CardContent className="p-6 flex items-center justify-between">
-                    <div>
-                        <h3 className="text-white font-bold text-lg group-hover:text-green-400 transition-colors">Cofre do Clã</h3>
-                        <p className="text-slate-500 text-xs mt-1">
-                            {isAdmin ? "Baixa de pagamentos" : "Comprar cotas da Skin"}
-                        </p>
-                    </div>
-                    <div className="h-12 w-12 bg-[#1e2420] rounded-full flex items-center justify-center border border-[#253825] group-hover:scale-110 transition-transform shadow-lg">
-                        <Wallet className="text-green-500 w-6 h-6" />
-                    </div>
-                </CardContent>
-            </Card>
-        </Link>
+      ))}
     </div>
   );
 }

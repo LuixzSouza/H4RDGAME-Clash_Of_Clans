@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Star, Skull, Swords, Crown, Clock, Trophy, TrendingUp, AlertTriangle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { WarData, AttackData } from "./types";
@@ -68,23 +68,23 @@ export function WarStats({ activeWar }: { activeWar: WarData }) {
 
   // Helpers de Cor
   const getScoreColor = (value: number) => {
-    if (value >= 90) return "text-green-400";
-    if (value >= 70) return "text-yellow-400";
-    return "text-red-400";
+    if (value >= 90) return "text-success";
+    if (value >= 70) return "text-primary";
+    return "text-destructive";
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       
       {/* --- 1. ESTRELAS & PTs --- */}
-      <Card className="bg-[#1e202b] border-[#2f3245] overflow-hidden relative shadow-lg group">
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent pointer-events-none" />
+      <div className="panel-clash overflow-hidden relative group">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
         <CardHeader className="pb-2 relative z-10">
            <div className="flex justify-between items-center">
-             <CardTitle className="text-xs font-bold text-yellow-500 uppercase tracking-widest flex items-center gap-2">
+             <CardTitle className="text-xs font-bold text-primary uppercase tracking-widest flex items-center gap-2">
                <Trophy className="w-4 h-4"/> Desempenho
              </CardTitle>
-             <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-[10px]">
+             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-[10px]">
                 {stats.triples} PTs
              </Badge>
            </div>
@@ -92,25 +92,25 @@ export function WarStats({ activeWar }: { activeWar: WarData }) {
         <CardContent className="relative z-10">
           <div className="flex items-baseline gap-2 mb-1">
             <span className="text-3xl font-black text-white">{stats.currentStars}</span>
-            <span className="text-sm font-medium text-slate-500">/ {stats.maxStars}</span>
+            <span className="text-sm font-medium text-muted-foreground">/ {stats.maxStars}</span>
           </div>
-          <div className="flex justify-between text-xs text-slate-400 mb-2">
+          <div className="flex justify-between text-xs text-muted-foreground mb-2">
             <span>Estrelas Totais</span>
-            <span className="text-yellow-500 font-bold">{stats.starPercentage.toFixed(1)}%</span>
+            <span className="text-primary font-bold">{stats.starPercentage.toFixed(1)}%</span>
           </div>
           <Progress 
             value={stats.starPercentage} 
-            className="h-2 bg-[#15161e]" 
-            indicatorClassName="bg-gradient-to-r from-yellow-600 to-yellow-400" 
+            className="h-2 bg-background" 
+            indicatorClassName="bg-gradient-to-r from-primary to-primary" 
           />
         </CardContent>
-      </Card>
+      </div>
       
       {/* --- 2. DESTRUIÇÃO --- */}
-      <Card className="bg-[#1e202b] border-[#2f3245] overflow-hidden relative shadow-lg group">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent pointer-events-none" />
+      <div className="panel-clash overflow-hidden relative group">
+        <div className="absolute inset-0 bg-gradient-to-br from-destructive/5 to-transparent pointer-events-none" />
         <CardHeader className="pb-2 relative z-10">
-           <CardTitle className="text-xs font-bold text-red-400 uppercase tracking-widest flex items-center gap-2">
+           <CardTitle className="text-xs font-bold text-destructive uppercase tracking-widest flex items-center gap-2">
              <Skull className="w-4 h-4"/> Danos Médios
            </CardTitle>
         </CardHeader>
@@ -120,31 +120,31 @@ export function WarStats({ activeWar }: { activeWar: WarData }) {
                 {stats.avgDestruction.toFixed(1)}%
             </span>
           </div>
-          <div className="flex justify-between text-xs text-slate-400 mb-2">
+          <div className="flex justify-between text-xs text-muted-foreground mb-2">
             <span>Por Ataque</span>
-            {stats.avgDestruction >= 95 && <span className="text-green-500 font-bold flex items-center gap-1"><TrendingUp className="w-3 h-3"/> Brutal</span>}
+            {stats.avgDestruction >= 95 && <span className="text-success font-bold flex items-center gap-1"><TrendingUp className="w-3 h-3"/> Brutal</span>}
           </div>
           <Progress 
             value={stats.avgDestruction} 
-            className="h-2 bg-[#15161e]" 
+            className="h-2 bg-background" 
             indicatorClassName={`transition-all duration-1000 ${
-                stats.avgDestruction > 85 ? 'bg-gradient-to-r from-green-600 to-green-400' : 
-                stats.avgDestruction > 50 ? 'bg-gradient-to-r from-yellow-600 to-yellow-400' : 
-                'bg-gradient-to-r from-red-600 to-red-400'
+                stats.avgDestruction > 85 ? 'bg-gradient-to-r from-success to-success' : 
+                stats.avgDestruction > 50 ? 'bg-gradient-to-r from-primary to-primary' : 
+                'bg-gradient-to-r from-destructive to-destructive'
             }`} 
           />
         </CardContent>
-      </Card>
+      </div>
 
       {/* --- 3. ATAQUES --- */}
-      <Card className="bg-[#1e202b] border-[#2f3245] overflow-hidden relative shadow-lg group">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
+      <div className="panel-clash overflow-hidden relative group">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
         <CardHeader className="pb-2 relative z-10">
            <div className="flex justify-between items-center">
-             <CardTitle className="text-xs font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
+             <CardTitle className="text-xs font-bold text-primary uppercase tracking-widest flex items-center gap-2">
                <Swords className="w-4 h-4"/> Ofensiva
              </CardTitle>
-             <span className="text-[10px] font-mono text-slate-500">
+             <span className="text-[10px] font-mono text-muted-foreground">
                 {stats.usedAttacks}/{stats.totalAttacks}
              </span>
            </div>
@@ -152,35 +152,35 @@ export function WarStats({ activeWar }: { activeWar: WarData }) {
         <CardContent className="relative z-10">
           <div className="flex items-baseline gap-2 mb-1">
             <span className="text-3xl font-black text-white">{stats.attacksLeft}</span>
-            <span className="text-sm font-bold text-slate-500 uppercase">Restantes</span>
+            <span className="text-sm font-bold text-muted-foreground uppercase">Restantes</span>
           </div>
-          <div className="flex justify-between text-xs text-slate-400 mb-2">
+          <div className="flex justify-between text-xs text-muted-foreground mb-2">
             <span>Participação</span>
-            <span className="text-blue-400 font-bold">{stats.attackPercentage.toFixed(0)}%</span>
+            <span className="text-primary font-bold">{stats.attackPercentage.toFixed(0)}%</span>
           </div>
           <Progress 
             value={stats.attackPercentage} 
-            className="h-2 bg-[#15161e]" 
-            indicatorClassName="bg-blue-500" 
+            className="h-2 bg-background" 
+            indicatorClassName="bg-primary" 
           />
         </CardContent>
-      </Card>
+      </div>
 
       {/* --- 4. TEMPO --- */}
-      <Card className={`bg-[#1e202b] border-[#2f3245] overflow-hidden relative shadow-lg ${timeLeft === "Finalizada" ? 'opacity-60 grayscale' : ''}`}>
-        <div className={`absolute inset-0 bg-gradient-to-br pointer-events-none ${isUrgent ? 'from-red-500/10' : 'from-green-500/10'}`} />
+      <div className={`panel-clash overflow-hidden relative ${timeLeft === "Finalizada" ? 'opacity-60 grayscale' : ''}`}>
+        <div className={`absolute inset-0 bg-gradient-to-br pointer-events-none ${isUrgent ? 'from-destructive/10' : 'from-success/10'}`} />
         <CardHeader className="pb-2 relative z-10">
-           <CardTitle className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 ${isUrgent ? 'text-red-400' : 'text-green-400'}`}>
+           <CardTitle className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 ${isUrgent ? 'text-destructive' : 'text-success'}`}>
              <Clock className="w-4 h-4"/> Status
            </CardTitle>
         </CardHeader>
         <CardContent className="relative z-10">
-          <div className={`text-2xl font-black uppercase tracking-tight mb-3 ${isUrgent ? 'text-red-400 animate-pulse' : 'text-white'}`}>
+          <div className={`text-2xl font-black uppercase tracking-tight mb-3 ${isUrgent ? 'text-destructive animate-pulse' : 'text-white'}`}>
             {timeLeft || "Calculando..."}
           </div>
           
           {timeLeft === "Finalizada" ? (
-             <Badge variant="outline" className="w-full justify-center bg-slate-800 border-slate-600 text-slate-400">
+             <Badge variant="outline" className="w-full justify-center bg-muted border-border text-muted-foreground">
                 Guerra Encerrada
              </Badge>
           ) : (
@@ -190,14 +190,14 @@ export function WarStats({ activeWar }: { activeWar: WarData }) {
                         <AlertTriangle className="w-3 h-3 mr-1"/> Reta Final
                     </Badge>
                 ) : (
-                    <Badge variant="outline" className="w-full justify-center bg-green-500/10 border-green-500/30 text-green-400">
+                    <Badge variant="outline" className="w-full justify-center bg-success/10 border-success/30 text-success">
                         <Crown className="w-3 h-3 mr-1"/> Em Andamento
                     </Badge>
                 )}
              </div>
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

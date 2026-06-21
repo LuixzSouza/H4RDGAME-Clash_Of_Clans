@@ -8,7 +8,7 @@ import { Leadership } from "@/components/landing/Leadership";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#0b0d14] font-sans selection:bg-yellow-500/30 selection:text-yellow-200">
+    <div className="min-h-screen bg-background font-sans selection:bg-primary/30 selection:text-primary">
       <Navbar />
       <Hero />
       <Welcome />

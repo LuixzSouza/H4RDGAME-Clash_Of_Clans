@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 // Actions
 import { getCurrentUser } from "@/app/actions";
@@ -69,7 +70,7 @@ export default function FortalezaPage() {
 
   const copyLink = (link: string) => {
     navigator.clipboard.writeText(link);
-    alert("Link copiado! Cole no navegador ou no chat do clã.");
+    toast.success("Link copiado!", { description: "Cole no jogo ou no chat do clã." });
   };
 
   // --- FILTRAGEM ---

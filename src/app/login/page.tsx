@@ -65,7 +65,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#0b0d14]">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
       
       {/* 1. Background e Texturas */}
       <LoginBackground />
@@ -76,7 +76,7 @@ export default function LoginPage() {
             variant="ghost" 
             size="icon" 
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className="text-slate-500 hover:text-yellow-500 hover:bg-yellow-500/10 transition-colors"
+            className="text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
         >
             {soundEnabled ? <Volume2 className="w-5 h-5"/> : <VolumeX className="w-5 h-5"/>}
         </Button>

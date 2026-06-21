@@ -119,8 +119,8 @@ export default function FerramentasPage() {
   if (loading) {
     return (
         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-            <Loader2 className="w-12 h-12 text-yellow-500 animate-spin" />
-            <p className="text-sm font-medium text-slate-500 animate-pulse tracking-widest uppercase">
+            <Loader2 className="w-12 h-12 text-primary animate-spin" />
+            <p className="text-sm font-medium text-muted-foreground animate-pulse tracking-widest uppercase">
                 Verificando credenciais...
             </p>
         </div>

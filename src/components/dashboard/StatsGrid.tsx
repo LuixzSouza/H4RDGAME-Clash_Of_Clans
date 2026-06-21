@@ -1,5 +1,5 @@
 import { Users, Swords, Wallet, Trophy, Loader2, TrendingUp } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { LucideIcon } from "lucide-react";
 
 interface StatsGridProps {
   stats: {
@@ -11,84 +11,92 @@ interface StatsGridProps {
   loading: boolean;
 }
 
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  footer,
+  loading,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: React.ReactNode;
+  footer: React.ReactNode;
+  loading: boolean;
+}) {
+  return (
+    <div className="panel-clash p-5 group hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+      {/* Marca d'água */}
+      <Icon className="absolute -top-3 -right-3 w-24 h-24 text-primary/[0.06] group-hover:text-primary/[0.1] transition-colors" />
+
+      <div className="relative z-10 flex items-center justify-between mb-3">
+        <span className="text-[11px] font-bold text-primary uppercase tracking-widest">{label}</span>
+        <div className="h-9 w-9 rounded-lg bg-primary/10 border border-primary/25 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <Icon className="h-4 w-4 text-primary" />
+        </div>
+      </div>
+
+      <div className="relative z-10 text-3xl font-black text-white leading-none min-h-[36px] flex items-center">
+        {loading ? <Loader2 className="animate-spin h-6 w-6 text-muted-foreground" /> : value}
+      </div>
+
+      <div className="relative z-10 mt-2 text-[10px] text-muted-foreground font-bold uppercase tracking-wide">
+        {footer}
+      </div>
+
+      {/* Barra dourada inferior */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent" />
+    </div>
+  );
+}
+
 export function StatsGrid({ stats, loading }: StatsGridProps) {
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        
-        {/* Membros */}
-        <Card className="bg-[#1e202b] border-[#2f3245] shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-             <Users className="w-24 h-24 text-blue-500" />
-          </div>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10">
-            <CardTitle className="text-xs font-bold text-blue-400 uppercase tracking-widest">Efetivo Total</CardTitle>
-            <Users className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent className="relative z-10">
-            <div className="text-3xl font-black text-white flex items-baseline gap-1">
-                {loading ? <Loader2 className="animate-spin h-6 w-6"/> : stats.totalMembers}
-                <span className="text-slate-600 text-sm font-bold">/50</span>
-            </div>
-            <p className="text-[10px] text-slate-500 font-bold mt-1 uppercase tracking-wide flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Online
-            </p>
-          </CardContent>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-transparent"></div>
-        </Card>
+    <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <StatCard
+        icon={Users}
+        label="Efetivo Total"
+        loading={loading}
+        value={
+          <span className="flex items-baseline gap-1">
+            {stats.totalMembers}
+            <span className="text-muted-foreground/60 text-sm font-bold">/50</span>
+          </span>
+        }
+        footer={
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-success animate-pulse" /> Online
+          </span>
+        }
+      />
 
-        {/* Guerra */}
-        <Card className="bg-[#1e202b] border-[#2f3245] shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-             <Swords className="w-24 h-24 text-red-500" />
-          </div>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10">
-            <CardTitle className="text-xs font-bold text-red-400 uppercase tracking-widest">Status de Guerra</CardTitle>
-            <Swords className="h-4 w-4 text-red-500" />
-          </CardHeader>
-          <CardContent className="relative z-10">
-            <div className="text-3xl font-black text-white tracking-tight">
-                {loading ? <Loader2 className="animate-spin h-6 w-6"/> : stats.warParticipants}
-            </div>
-            <p className="text-[10px] text-red-400/80 font-bold mt-1 uppercase tracking-wide">Combatentes Confirmados</p>
-          </CardContent>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-transparent"></div>
-        </Card>
+      <StatCard
+        icon={Swords}
+        label="Status de Guerra"
+        loading={loading}
+        value={stats.warParticipants}
+        footer="Combatentes Confirmados"
+      />
 
-        {/* Tesouraria */}
-        <Card className="bg-[#1e202b] border-[#2f3245] shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-             <Wallet className="w-24 h-24 text-green-500" />
-          </div>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10">
-            <CardTitle className="text-xs font-bold text-green-400 uppercase tracking-widest">Cofre do Clã</CardTitle>
-            <Wallet className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent className="relative z-10">
-            <div className="text-3xl font-black text-green-400">
-                {loading ? <Loader2 className="animate-spin h-6 w-6"/> : `R$ ${stats.totalTreasury.toFixed(2)}`}
-            </div>
-            <p className="text-[10px] text-slate-500 font-bold mt-1 uppercase tracking-wide flex items-center gap-1">
-                <TrendingUp className="w-3 h-3 text-green-500"/> {stats.paidMembers} Apoiadores
-            </p>
-          </CardContent>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-transparent"></div>
-        </Card>
+      <StatCard
+        icon={Wallet}
+        label="Cofre do Clã"
+        loading={loading}
+        value={`R$ ${stats.totalTreasury.toFixed(2)}`}
+        footer={
+          <span className="flex items-center gap-1">
+            <TrendingUp className="w-3 h-3 text-success" /> {stats.paidMembers} Apoiadores
+          </span>
+        }
+      />
 
-        {/* Liga */}
-        <Card className="bg-[#1e202b] border-[#2f3245] shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-             <Trophy className="w-24 h-24 text-yellow-500" />
-          </div>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10">
-            <CardTitle className="text-xs font-bold text-yellow-500 uppercase tracking-widest">Liga CWL</CardTitle>
-            <Trophy className="h-4 w-4 text-yellow-500" />
-          </CardHeader>
-          <CardContent className="relative z-10">
-            <div className="text-3xl font-black text-yellow-400">Ouro I</div>
-            <p className="text-[10px] text-yellow-600/80 font-bold mt-1 uppercase tracking-wide">Próxima Temporada</p>
-          </CardContent>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-600 to-transparent"></div>
-        </Card>
-      </div>
+      <StatCard
+        icon={Trophy}
+        label="Liga CWL"
+        loading={loading}
+        value={<span className="text-primary">Ouro I</span>}
+        footer="Próxima Temporada"
+      />
+    </div>
   );
 }

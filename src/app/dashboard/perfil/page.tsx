@@ -133,7 +133,7 @@ export default function PerfilPage() {
     }, 800);
   };
 
-  if (loading) return <div className="flex h-[50vh] items-center justify-center text-slate-500 gap-2"><Loader2 className="animate-spin"/> Carregando perfil...</div>;
+  if (loading) return <div className="flex h-[50vh] items-center justify-center text-muted-foreground gap-2"><Loader2 className="animate-spin"/> Carregando perfil...</div>;
 
   return (
     <div className="p-4 md:p-6 space-y-8 max-w-6xl mx-auto">
@@ -156,11 +156,11 @@ export default function PerfilPage() {
         {/* 3. Direita: Personalização e Segurança */}
         <div className="lg:col-span-2">
             <Tabs defaultValue="visual" className="w-full">
-                <TabsList className="bg-[#1e202b] border border-[#2f3245] w-full justify-start p-1 h-auto rounded-xl">
-                    <TabsTrigger value="visual" className="gap-2 py-3 px-6 rounded-lg data-[state=active]:bg-[#2f3245] data-[state=active]:text-white data-[state=active]:shadow-none text-slate-400">
+                <TabsList className="bg-card border border-border w-full justify-start p-1 h-auto rounded-xl">
+                    <TabsTrigger value="visual" className="gap-2 py-3 px-6 rounded-lg data-[state=active]:bg-accent data-[state=active]:text-white data-[state=active]:shadow-none text-muted-foreground">
                         <Swords className="w-4 h-4" /> Aparência
                     </TabsTrigger>
-                    <TabsTrigger value="security" className="gap-2 py-3 px-6 rounded-lg data-[state=active]:bg-[#2f3245] data-[state=active]:text-white data-[state=active]:shadow-none text-slate-400">
+                    <TabsTrigger value="security" className="gap-2 py-3 px-6 rounded-lg data-[state=active]:bg-accent data-[state=active]:text-white data-[state=active]:shadow-none text-muted-foreground">
                         <Lock className="w-4 h-4" /> Segurança
                     </TabsTrigger>
                 </TabsList>

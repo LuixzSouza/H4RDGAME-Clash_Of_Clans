@@ -1,14 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, Copy, Check, User, Shield, ShieldAlert, Wallet, Ticket } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Sparkles, Copy, Check, User, Shield, ShieldAlert, Ticket } from "lucide-react";
 
 interface ActionPanelProps {
   isAdmin: boolean;
-  // CORREÇÃO AQUI: Mudamos 'tickets' para 'activeTickets' para bater com o DashboardPage
   currentUser: { activeTickets: number; warStatus: string } | null;
   quickWarText: string;
 }
@@ -25,82 +21,77 @@ export function ActionPanel({ isAdmin, currentUser, quickWarText }: ActionPanelP
   // --- VISÃO DE ADMINISTRADOR ---
   if (isAdmin) {
     return (
-        <Card className="bg-[#1e202b] border-[#2f3245] border-l-4 border-l-red-500 shadow-xl overflow-hidden relative">
-            <div className="absolute right-0 top-0 p-3 opacity-10">
-                <Sparkles className="w-20 h-20 text-red-500" />
-            </div>
-            <CardHeader className="pb-3 relative z-10">
-                <CardTitle className="text-white flex items-center gap-2 text-lg">
-                    <div className="p-2 bg-red-500/20 rounded-lg text-red-500">
-                        <Sparkles className="w-5 h-5" />
-                    </div>
-                    Ordem de Comando Rápida
-                </CardTitle>
-                <CardDescription className="text-slate-400 text-xs">
-                    Envie este comando no WhatsApp/Discord para mobilizar o clã.
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="relative z-10">
-                <div className="bg-[#0b0d14] p-4 rounded-xl border border-[#2f3245] text-slate-300 font-mono text-xs mb-4 leading-relaxed shadow-inner">
-                    {quickWarText}
-                </div>
-                <Button 
-                    onClick={copyQuickText}
-                    className="w-full bg-red-600 hover:bg-red-500 text-white font-bold h-10 transition-all shadow-lg shadow-red-900/20"
-                >
-                    {copied ? <><Check className="mr-2 h-4 w-4"/> Comando Copiado!</> : <><Copy className="mr-2 h-4 w-4"/> Copiar Ordem</>}
-                </Button>
-            </CardContent>
-        </Card>
+      <div className="panel-clash p-6 overflow-hidden">
+        <Sparkles className="absolute right-4 top-4 w-20 h-20 text-primary/[0.07] pointer-events-none" />
+
+        <div className="relative z-10 flex items-center gap-3 mb-1">
+          <div className="h-10 w-10 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center text-primary">
+            <Sparkles className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white leading-tight">Ordem de Comando Rápida</h3>
+            <p className="text-muted-foreground text-xs">Mobilize o clã no WhatsApp/Discord.</p>
+          </div>
+        </div>
+
+        <div className="relative z-10 mt-4">
+          <div className="bg-background p-4 rounded-xl border border-border text-foreground/80 font-mono text-xs mb-4 leading-relaxed shadow-inner">
+            {quickWarText}
+          </div>
+          <button onClick={copyQuickText} className="btn-clash w-full text-sm">
+            {copied ? (
+              <><Check className="mr-2 h-4 w-4" /> Comando Copiado!</>
+            ) : (
+              <><Copy className="mr-2 h-4 w-4" /> Copiar Ordem</>
+            )}
+          </button>
+        </div>
+      </div>
     );
   }
 
   // --- VISÃO DE MEMBRO (Cartão de Identidade) ---
+  const inWar = currentUser?.warStatus === "IN";
   return (
-    <Card className="bg-[#1e202b] border-[#2f3245] border-l-4 border-l-blue-500 shadow-xl overflow-hidden">
-        <CardHeader className="pb-4 bg-[#15161e] border-b border-[#2f3245]">
-            <div className="flex justify-between items-center">
-                <CardTitle className="text-white flex items-center gap-2 text-lg">
-                    <User className="w-5 h-5 text-blue-500" /> Identidade Tática
-                </CardTitle>
-                <Badge variant="outline" className="border-blue-500 text-blue-500 bg-blue-500/10">ATIVO</Badge>
-            </div>
-        </CardHeader>
-        
-        <CardContent className="pt-6 grid grid-cols-2 gap-4">
-            
-            {/* Status de Guerra */}
-            <div className={`p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all
-                ${currentUser?.warStatus === 'IN' 
-                    ? 'bg-green-900/10 border-green-500/30' 
-                    : 'bg-red-900/10 border-red-500/30'}`
-            }>
-                <div className={`p-2 rounded-full ${currentUser?.warStatus === 'IN' ? 'bg-green-500 text-black' : 'bg-red-500 text-white'}`}>
-                    {currentUser?.warStatus === 'IN' ? <Shield className="w-5 h-5"/> : <ShieldAlert className="w-5 h-5"/>}
-                </div>
-                <div className="text-center">
-                    <p className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Status Guerra</p>
-                    <p className={`text-lg font-black ${currentUser?.warStatus === 'IN' ? 'text-green-400' : 'text-red-400'}`}>
-                        {currentUser?.warStatus === 'IN' ? 'CONFIRMADO' : 'INDISPONÍVEL'}
-                    </p>
-                </div>
-            </div>
+    <div className="panel-clash overflow-hidden">
+      <div className="flex justify-between items-center px-6 py-4 border-b border-border bg-secondary/40">
+        <h3 className="text-white flex items-center gap-2 text-lg font-bold">
+          <User className="w-5 h-5 text-primary" /> Identidade Tática
+        </h3>
+        <span className="eyebrow !py-0.5">Ativo</span>
+      </div>
 
-            {/* Status Financeiro */}
-            <div className="p-4 rounded-xl border border-[#2f3245] bg-[#15161e] flex flex-col items-center justify-center gap-2">
-                <div className="p-2 rounded-full bg-yellow-500/20 text-yellow-500">
-                    <Ticket className="w-5 h-5"/>
-                </div>
-                <div className="text-center">
-                    <p className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Minhas Cotas</p>
-                    <p className="text-lg font-black text-white">
-                        {/* CORREÇÃO AQUI: Usando activeTickets */}
-                        {currentUser?.activeTickets || 0} <span className="text-xs font-medium text-slate-500">un</span>
-                    </p>
-                </div>
-            </div>
+      <div className="p-6 grid grid-cols-2 gap-4">
+        {/* Status de Guerra */}
+        <div
+          className={`p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all ${
+            inWar ? "bg-success/10 border-success/30" : "bg-destructive/10 border-destructive/30"
+          }`}
+        >
+          <div className={`p-2 rounded-full ${inWar ? "bg-success text-success-foreground" : "bg-destructive text-destructive-foreground"}`}>
+            {inWar ? <Shield className="w-5 h-5" /> : <ShieldAlert className="w-5 h-5" />}
+          </div>
+          <div className="text-center">
+            <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Status Guerra</p>
+            <p className={`text-lg font-black ${inWar ? "text-success" : "text-destructive"}`}>
+              {inWar ? "CONFIRMADO" : "INDISPONÍVEL"}
+            </p>
+          </div>
+        </div>
 
-        </CardContent>
-    </Card>
+        {/* Cotas */}
+        <div className="plaque p-4 flex flex-col items-center justify-center gap-2">
+          <div className="p-2 rounded-full bg-primary/20 text-primary">
+            <Ticket className="w-5 h-5" />
+          </div>
+          <div className="text-center">
+            <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Minhas Cotas</p>
+            <p className="text-lg font-black text-white">
+              {currentUser?.activeTickets || 0} <span className="text-xs font-medium text-muted-foreground">un</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

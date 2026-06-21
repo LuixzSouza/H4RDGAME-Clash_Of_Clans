@@ -34,12 +34,12 @@ export type TemplatesMap = Record<TemplateCategory, TemplateItem[]>;
 
 // Configuração das Abas (Centralizada para facilitar manutenção)
 const TABS_CONFIG = [
-  { id: 'guerra', icon: Sword, label: 'Guerra', color: 'text-red-500', bg: 'bg-red-500/10 border-red-500/20' },
-  { id: 'capital', icon: Castle, label: 'Capital', color: 'text-orange-500', bg: 'bg-orange-500/10 border-orange-500/20' },
-  { id: 'geral', icon: AlertTriangle, label: 'Avisos', color: 'text-yellow-500', bg: 'bg-yellow-500/10 border-yellow-500/20' },
-  { id: 'jogos', icon: Trophy, label: 'Jogos', color: 'text-blue-500', bg: 'bg-blue-500/10 border-blue-500/20' },
-  { id: 'doacao', icon: Calendar, label: 'Doar', color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20' },
-  { id: 'recrutamento', icon: MessageSquare, label: 'Recrute', color: 'text-purple-500', bg: 'bg-purple-500/10 border-purple-500/20' },
+  { id: 'guerra', icon: Sword, label: 'Guerra', color: 'text-destructive', bg: 'bg-destructive/10 border-destructive/20' },
+  { id: 'capital', icon: Castle, label: 'Capital', color: 'text-primary', bg: 'bg-primary/10 border-primary/20' },
+  { id: 'geral', icon: AlertTriangle, label: 'Avisos', color: 'text-primary', bg: 'bg-primary/10 border-primary/20' },
+  { id: 'jogos', icon: Trophy, label: 'Jogos', color: 'text-primary', bg: 'bg-primary/10 border-primary/20' },
+  { id: 'doacao', icon: Calendar, label: 'Doar', color: 'text-success', bg: 'bg-success/10 border-success/20' },
+  { id: 'recrutamento', icon: MessageSquare, label: 'Recrute', color: 'text-primary', bg: 'bg-primary/10 border-primary/20' },
 ] as const;
 
 interface MessageConfiguratorProps {
@@ -60,10 +60,10 @@ export function MessageConfigurator({
   
   // Estilos reutilizáveis
   const inputWrapperClass = "relative group";
-  const inputClass = "bg-[#0b0d14] border-[#2f3245] text-white placeholder:text-slate-600 focus-visible:ring-1 focus-visible:ring-yellow-500 rounded-lg h-11 transition-all hover:border-slate-500 pl-10 pr-16";
-  const iconClass = "absolute left-3 top-3.5 h-4 w-4 text-slate-500 group-focus-within:text-yellow-500 transition-colors";
-  const labelClass = "text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5";
-  const actionButtonClass = "absolute right-1.5 top-1.5 h-8 px-3 text-[10px] font-bold bg-[#1e202b] hover:bg-[#2f3245] text-slate-400 hover:text-white rounded border border-[#2f3245] transition-all flex items-center gap-1.5";
+  const inputClass = "bg-background border-border text-white placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-primary rounded-lg h-11 transition-all hover:border-border pl-10 pr-16";
+  const iconClass = "absolute left-3 top-3.5 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors";
+  const labelClass = "text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5 flex items-center gap-1.5";
+  const actionButtonClass = "absolute right-1.5 top-1.5 h-8 px-3 text-[10px] font-bold bg-card hover:bg-accent text-muted-foreground hover:text-white rounded border border-border transition-all flex items-center gap-1.5";
 
   // --- HELPERS ---
   const setNow = () => {
@@ -82,10 +82,10 @@ export function MessageConfigurator({
   const ActiveIcon = currentTabConfig.icon;
 
   return (
-    <Card className="card-clash overflow-hidden bg-[#1e202b] border-[#2f3245] shadow-2xl flex flex-col h-full ring-1 ring-white/5">
+    <Card className="card-clash overflow-hidden bg-card border-border shadow-2xl flex flex-col h-full ring-1 ring-white/5">
       
       {/* Cabeçalho Dinâmico */}
-      <CardHeader className="bg-[#15161e] border-b border-[#2f3245] pb-4 shrink-0">
+      <CardHeader className="bg-background border-b border-border pb-4 shrink-0">
         <div className="flex justify-between items-center">
             <div>
                 <CardTitle className="text-white flex items-center gap-2.5 text-lg">
@@ -94,7 +94,7 @@ export function MessageConfigurator({
                     </div>
                     Configurar {currentTabConfig.label}
                 </CardTitle>
-                <CardDescription className="text-slate-500 text-xs mt-1 ml-1">
+                <CardDescription className="text-muted-foreground text-xs mt-1 ml-1">
                     Personalize os parâmetros do comando.
                 </CardDescription>
             </div>
@@ -112,12 +112,12 @@ export function MessageConfigurator({
         }}>
           
           {/* Navegação de Abas (Grid Compacto) */}
-          <TabsList className="grid grid-cols-3 sm:grid-cols-6 mb-6 h-auto bg-[#15161e] border border-[#2f3245] p-1.5 rounded-xl gap-1.5">
+          <TabsList className="grid grid-cols-3 sm:grid-cols-6 mb-6 h-auto bg-background border border-border p-1.5 rounded-xl gap-1.5">
             {TABS_CONFIG.map((tab) => (
                 <TabsTrigger 
                     key={tab.id}
                     value={tab.id} 
-                    className="group flex flex-col items-center justify-center gap-1 py-2.5 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-[#252836] data-[state=active]:bg-[#2f3245] data-[state=active]:text-white transition-all border border-transparent data-[state=active]:border-slate-600/50"
+                    className="group flex flex-col items-center justify-center gap-1 py-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent data-[state=active]:bg-accent data-[state=active]:text-white transition-all border border-transparent data-[state=active]:border-border/50"
                 >
                     <tab.icon className={`w-4 h-4 group-data-[state=active]:${tab.color}`}/> 
                     <span className="text-[9px] font-bold uppercase tracking-wide">{tab.label}</span>
@@ -129,14 +129,14 @@ export function MessageConfigurator({
             
             {/* 1. Seleção do Modelo */}
             <div className="space-y-2">
-              <Label className={labelClass}><Type className="w-3 h-3 text-yellow-500"/> Modelo Base</Label>
+              <Label className={labelClass}><Type className="w-3 h-3 text-primary"/> Modelo Base</Label>
               <Select value={selectedTemplateIndex} onValueChange={setSelectedTemplateIndex}>
-                <SelectTrigger className="bg-[#0b0d14] border-[#2f3245] text-white h-12 focus:ring-yellow-500">
+                <SelectTrigger className="bg-background border-border text-white h-12 focus:ring-primary">
                   <SelectValue placeholder="Selecione um modelo" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                <SelectContent className="bg-card border-border text-white">
                   {templates[activeTab as TemplateCategory]?.map((t, idx) => (
-                    <SelectItem key={idx} value={idx.toString()} className="focus:bg-[#2f3245] cursor-pointer">
+                    <SelectItem key={idx} value={idx.toString()} className="focus:bg-accent cursor-pointer">
                       {t.label}
                     </SelectItem>
                   ))}
@@ -144,7 +144,7 @@ export function MessageConfigurator({
               </Select>
             </div>
 
-            <Separator className="bg-[#2f3245]" />
+            <Separator className="bg-accent" />
 
             {/* 2. Dados Globais (Grid) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -173,13 +173,13 @@ export function MessageConfigurator({
             </div>
 
             {/* 3. Dados Específicos (Card Destacado) */}
-            <div className={`bg-gradient-to-br from-[#15161e] to-[#0b0d14] p-5 rounded-xl border border-[#2f3245] space-y-5 shadow-lg relative overflow-hidden group`}>
+            <div className={`bg-gradient-to-br from-background to-background p-5 rounded-xl border border-border space-y-5 shadow-lg relative overflow-hidden group`}>
                 {/* Efeito de brilho baseado na cor da aba */}
                 <div className={`absolute top-0 left-0 w-1 h-full ${currentTabConfig.bg.split(' ')[0].replace('/10', '')} opacity-80`}></div>
                 
                 <div className="flex items-center gap-2 mb-1">
-                    <Edit3 className="w-3.5 h-3.5 text-slate-400" />
-                    <span className="text-xs font-bold text-slate-200 uppercase tracking-wider">Parâmetros Específicos</span>
+                    <Edit3 className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="text-xs font-bold text-foreground uppercase tracking-wider">Parâmetros Específicos</span>
                 </div>
 
                 {activeTab === 'guerra' && (

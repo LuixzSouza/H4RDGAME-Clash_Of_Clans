@@ -106,8 +106,8 @@ export default function PainelGuerra() {
   if (loading) {
     return (
       <div className="p-20 text-center flex flex-col items-center gap-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
-        <p className="text-slate-500 font-medium animate-pulse">Sincronizando estratégia com o quartel...</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-destructive"></div>
+        <p className="text-muted-foreground font-medium animate-pulse">Sincronizando estratégia com o quartel...</p>
       </div>
     );
   }
@@ -135,11 +135,11 @@ export default function PainelGuerra() {
           <WarStats activeWar={activeWar} />
           
           <Tabs defaultValue="map" className="w-full">
-            <TabsList className="bg-[#15161e] border border-[#2f3245] p-1">
-              <TabsTrigger value="map" className="gap-2 data-[state=active]:bg-[#2f3245]">
+            <TabsList className="bg-background border border-border p-1">
+              <TabsTrigger value="map" className="gap-2 data-[state=active]:bg-accent">
                 <Target className="w-4 h-4"/> Mapa de Guerra
               </TabsTrigger>
-              <TabsTrigger value="stats" className="gap-2 data-[state=active]:bg-[#2f3245]">
+              <TabsTrigger value="stats" className="gap-2 data-[state=active]:bg-accent">
                 <BarChart3 className="w-4 h-4"/> Histórico & Performance
               </TabsTrigger>
             </TabsList>
@@ -168,14 +168,14 @@ export default function PainelGuerra() {
             />
             
             {/* Seção de Histórico no rodapé da preparação */}
-            <div className="pt-8 border-t border-[#2f3245]">
+            <div className="pt-8 border-t border-border">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-blue-500/10 rounded-lg">
-                        <BarChart3 className="w-6 h-6 text-blue-500"/>
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                        <BarChart3 className="w-6 h-6 text-primary"/>
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold text-white tracking-tight">Arquivos de Guerra</h2>
-                        <p className="text-slate-500 text-sm">Analise o desempenho das últimas campanhas.</p>
+                        <p className="text-muted-foreground text-sm">Analise o desempenho das últimas campanhas.</p>
                     </div>
                 </div>
                 <WarHistory history={history} />

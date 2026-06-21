@@ -17,7 +17,7 @@ interface CreateLayoutDialogProps {
 export function CreateLayoutDialog({ isOpen, onOpenChange, onConfirm }: CreateLayoutDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1e202b] border-[#2f3245] text-white">
+      <DialogContent className="bg-card border-border text-white">
         <DialogHeader>
             <DialogTitle>Novo Layout</DialogTitle>
         </DialogHeader>
@@ -25,13 +25,13 @@ export function CreateLayoutDialog({ isOpen, onOpenChange, onConfirm }: CreateLa
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                     <Label>Nome do Layout</Label>
-                    <Input name="name" placeholder="Ex: Anti-3 Estrelas" className="bg-[#15161e] border-[#2f3245] text-white" required/>
+                    <Input name="name" placeholder="Ex: Anti-3 Estrelas" className="bg-background border-border text-white" required/>
                 </div>
                 <div className="space-y-2">
                     <Label>Nível CV (TH)</Label>
                     <Select name="thLevel" defaultValue="16">
-                        <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white"><SelectValue /></SelectTrigger>
-                        <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                        <SelectTrigger className="bg-background border-border text-white"><SelectValue /></SelectTrigger>
+                        <SelectContent className="bg-card border-border text-white">
                             {[16,15,14,13,12,11,10,9].map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)}
                         </SelectContent>
                     </Select>
@@ -41,8 +41,8 @@ export function CreateLayoutDialog({ isOpen, onOpenChange, onConfirm }: CreateLa
             <div className="space-y-2">
                 <Label>Objetivo</Label>
                 <Select name="type" defaultValue="war">
-                    <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white"><SelectValue /></SelectTrigger>
-                    <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                    <SelectTrigger className="bg-background border-border text-white"><SelectValue /></SelectTrigger>
+                    <SelectContent className="bg-card border-border text-white">
                         <SelectItem value="war">Guerra (Anti-3 Stars)</SelectItem>
                         <SelectItem value="farm">Farm (Proteção Recursos)</SelectItem>
                         <SelectItem value="push">Push (Proteção Troféus)</SelectItem>
@@ -53,23 +53,23 @@ export function CreateLayoutDialog({ isOpen, onOpenChange, onConfirm }: CreateLa
             <div className="space-y-2">
                 <Label>Link do Layout (Supercell ID)</Label>
                 <div className="relative">
-                    <LinkIcon className="absolute left-3 top-3 h-4 w-4 text-slate-500"/>
-                    <Input name="link" placeholder="https://link.clashofclans.com/..." className="bg-[#15161e] border-[#2f3245] text-white pl-10" required/>
+                    <LinkIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground"/>
+                    <Input name="link" placeholder="https://link.clashofclans.com/..." className="bg-background border-border text-white pl-10" required/>
                 </div>
             </div>
 
             <div className="space-y-2">
                 <Label>URL da Imagem (Print)</Label>
                 <div className="relative">
-                    <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-slate-500"/>
-                    <Input name="imageUrl" placeholder="https://imgur.com/..." className="bg-[#15161e] border-[#2f3245] text-white pl-10" required/>
+                    <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground"/>
+                    <Input name="imageUrl" placeholder="https://imgur.com/..." className="bg-background border-border text-white pl-10" required/>
                 </div>
-                <p className="text-[10px] text-slate-500">Dica: Use sites como imgur.com para hospedar o print.</p>
+                <p className="text-[10px] text-muted-foreground">Dica: Use sites como imgur.com para hospedar o print.</p>
             </div>
 
             <div className="space-y-2">
                 <Label>Descrição</Label>
-                <Textarea name="description" placeholder="Detalhes sobre armadilhas, pathing, etc..." className="bg-[#15161e] border-[#2f3245] text-white" required/>
+                <Textarea name="description" placeholder="Detalhes sobre armadilhas, pathing, etc..." className="bg-background border-border text-white" required/>
             </div>
 
             <DialogFooter>

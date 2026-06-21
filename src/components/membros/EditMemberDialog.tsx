@@ -39,17 +39,17 @@ export function EditMemberDialog({ member, currentUser, isOpen, onOpenChange, on
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="bg-[#1e202b] border-[#2f3245] text-white sm:max-w-[600px] shadow-2xl p-0 gap-0 overflow-hidden">
+        <DialogContent className="bg-card border-border text-white sm:max-w-[600px] shadow-2xl p-0 gap-0 overflow-hidden">
             
-            <div className="bg-[#15161e] p-6 border-b border-[#2f3245] flex items-center gap-4">
-                <Avatar className="h-16 w-16 border-2 border-yellow-500/20 shadow-lg">
+            <div className="bg-background p-6 border-b border-border flex items-center gap-4">
+                <Avatar className="h-16 w-16 border-2 border-primary/20 shadow-lg">
                     <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${member.avatarSeed || member.name}`} />
                     <AvatarFallback>{member.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>
                     <DialogTitle className="text-xl font-bold text-white">Editar Guerreiro</DialogTitle>
-                    <DialogDescription className="text-slate-400">
-                        {isMe ? "Editando seu perfil" : <>Editando <span className="text-yellow-500 font-bold">{member.name}</span></>}
+                    <DialogDescription className="text-muted-foreground">
+                        {isMe ? "Editando seu perfil" : <>Editando <span className="text-primary font-bold">{member.name}</span></>}
                     </DialogDescription>
                 </div>
             </div>
@@ -66,7 +66,7 @@ export function EditMemberDialog({ member, currentUser, isOpen, onOpenChange, on
 
                 {/* Seção 1: Dados Pessoais */}
                 <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest border-b border-[#2f3245] pb-2">
+                    <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest border-b border-border pb-2">
                         <User className="w-3 h-3" /> Dados Pessoais
                     </div>
                     
@@ -74,25 +74,25 @@ export function EditMemberDialog({ member, currentUser, isOpen, onOpenChange, on
                         <div className="space-y-2">
                             <Label className="flex justify-between">
                                 Nome de Guerra
-                                {!canEditName && <Lock className="w-3 h-3 text-slate-500"/>}
+                                {!canEditName && <Lock className="w-3 h-3 text-muted-foreground"/>}
                             </Label>
                             <Input 
                                 name="name" 
                                 defaultValue={member.name} 
                                 disabled={!canEditName}
-                                className="bg-[#15161e] border-[#2f3245] text-white focus-visible:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="bg-background border-border text-white focus-visible:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
                             />
                         </div>
                         <div className="space-y-2">
                             <Label className="flex items-center gap-2">
-                                <Phone className="w-3 h-3 text-green-500" /> WhatsApp
+                                <Phone className="w-3 h-3 text-success" /> WhatsApp
                             </Label>
                             <Input 
                                 name="phone" 
                                 type="tel" 
                                 placeholder="(11) 99999-9999" 
                                 defaultValue={member.phone || ""} 
-                                className="bg-[#15161e] border-[#2f3245] text-white placeholder:text-slate-600 focus-visible:ring-green-500"
+                                className="bg-background border-border text-white placeholder:text-muted-foreground focus-visible:ring-success"
                             />
                         </div>
                     </div>
@@ -100,7 +100,7 @@ export function EditMemberDialog({ member, currentUser, isOpen, onOpenChange, on
 
                 {/* Seção 2: Dados do Clã */}
                 <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest border-b border-[#2f3245] pb-2">
+                    <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest border-b border-border pb-2">
                         <Shield className="w-3 h-3" /> Dados Militares
                     </div>
 
@@ -108,7 +108,7 @@ export function EditMemberDialog({ member, currentUser, isOpen, onOpenChange, on
                         <div className="space-y-2">
                             <Label className="flex justify-between">
                                 Nível TH
-                                {!canEditGameStats && <Lock className="w-3 h-3 text-slate-500"/>}
+                                {!canEditGameStats && <Lock className="w-3 h-3 text-muted-foreground"/>}
                             </Label>
                             <div className="relative">
                                 <Input 
@@ -116,20 +116,20 @@ export function EditMemberDialog({ member, currentUser, isOpen, onOpenChange, on
                                     type="number" 
                                     defaultValue={member.thLevel} 
                                     disabled={!canEditGameStats}
-                                    className="bg-[#15161e] border-[#2f3245] text-white pl-9 font-bold disabled:opacity-50"
+                                    className="bg-background border-border text-white pl-9 font-bold disabled:opacity-50"
                                 />
-                                <span className="absolute left-3 top-2.5 text-xs font-bold text-slate-500">TH</span>
+                                <span className="absolute left-3 top-2.5 text-xs font-bold text-muted-foreground">TH</span>
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <Label className="flex justify-between">
                                 Cargo
-                                {!canEditRole && <Lock className="w-3 h-3 text-slate-500"/>}
+                                {!canEditRole && <Lock className="w-3 h-3 text-muted-foreground"/>}
                             </Label>
                             <Select name="role" defaultValue={member.role as string} disabled={!canEditRole}>
-                                <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white disabled:opacity-50"><SelectValue /></SelectTrigger>
-                                <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                                <SelectTrigger className="bg-background border-border text-white disabled:opacity-50"><SelectValue /></SelectTrigger>
+                                <SelectContent className="bg-card border-border text-white">
                                     <SelectItem value="Membro">Membro</SelectItem>
                                     <SelectItem value="Ancião">Ancião</SelectItem>
                                     <SelectItem value="Colíder">Colíder</SelectItem>
@@ -141,24 +141,24 @@ export function EditMemberDialog({ member, currentUser, isOpen, onOpenChange, on
                         <div className="space-y-2">
                             <Label className="flex justify-between">
                                 Guerra
-                                {!canEditGameStats && <Lock className="w-3 h-3 text-slate-500"/>}
+                                {!canEditGameStats && <Lock className="w-3 h-3 text-muted-foreground"/>}
                             </Label>
                             <Select name="warStatus" defaultValue={member.warStatus} disabled={!canEditGameStats}>
-                                <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white disabled:opacity-50"><SelectValue /></SelectTrigger>
-                                <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
-                                    <SelectItem value="IN" className="text-green-400 font-bold">Participando (IN)</SelectItem>
-                                    <SelectItem value="OUT" className="text-red-400 font-bold">De fora (OUT)</SelectItem>
+                                <SelectTrigger className="bg-background border-border text-white disabled:opacity-50"><SelectValue /></SelectTrigger>
+                                <SelectContent className="bg-card border-border text-white">
+                                    <SelectItem value="IN" className="text-success font-bold">Participando (IN)</SelectItem>
+                                    <SelectItem value="OUT" className="text-destructive font-bold">De fora (OUT)</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                     </div>
                 </div>
 
-                <DialogFooter className="pt-4 border-t border-[#2f3245] mt-4">
-                    <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-400 hover:text-white mr-auto">
+                <DialogFooter className="pt-4 border-t border-border mt-4">
+                    <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white mr-auto">
                         Cancelar
                     </Button>
-                    <Button type="submit" className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold px-8 shadow-lg transition-all hover:scale-105">
+                    <Button type="submit" className="bg-primary hover:bg-primary text-white font-bold px-8 shadow-lg transition-all hover:scale-105">
                         <Save className="w-4 h-4 mr-2"/> Salvar Alterações
                     </Button>
                 </DialogFooter>

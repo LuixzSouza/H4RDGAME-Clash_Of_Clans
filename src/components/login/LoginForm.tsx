@@ -1,10 +1,13 @@
 "use client";
 
-import { Swords, ShieldAlert, Lock, UserPlus, LogIn, AlertCircle, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import Link from "next/link";
+import {
+  Swords, ShieldAlert, Lock, UserPlus, LogIn, AlertCircle, Loader2,
+  Eye, EyeOff, ArrowLeft,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 interface LoginFormProps {
   isVisible: boolean;
@@ -15,142 +18,168 @@ interface LoginFormProps {
   error: string;
 }
 
-export function LoginForm({ isVisible, isRegisterMode, setIsRegisterMode, onSubmit, loading, error }: LoginFormProps) {
+const FORGOT_URL =
+  "https://wa.me/5535997354797?text=" +
+  encodeURIComponent("Olá, líder! Esqueci minha senha do painel H4RD G4ME e preciso redefinir. Minha tag é: #");
+
+const JOIN_URL =
+  "https://wa.me/5535997354797?text=" +
+  encodeURIComponent("Olá! Quero me alistar no clã H4RD G4ME. Minha tag no Clash é: #");
+
+export function LoginForm({ isVisible, isRegisterMode, onSubmit, loading, error }: LoginFormProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <div className={`w-full max-w-md p-4 transition-all duration-1000 z-40 ${
-      isVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-10'
-    }`}>
-      
-      <Card className="card-clash bg-[#1e202b]/95 backdrop-blur-md border-[#2f3245] shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-        <CardHeader className="text-center pb-2 relative">
-          
-          {/* Ícone Animado */}
-          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-[#2f3245] to-[#1a1b26] rounded-2xl border-2 border-yellow-600/30 flex items-center justify-center shadow-inner mb-4 group cursor-pointer hover:border-yellow-500 transition-colors">
-            {isRegisterMode ? (
-                <UserPlus className="w-10 h-10 text-green-500 group-hover:scale-110 transition-transform"/>
-            ) : (
-                <Swords className="w-10 h-10 text-red-500 group-hover:rotate-12 transition-transform duration-500" />
-            )}
-          </div>
+    <div
+      className={`w-full max-w-md p-4 transition-all duration-1000 z-40 ${
+        isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-10"
+      }`}
+    >
+      {/* Voltar ao site */}
+      <Link
+        href="/"
+        className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors mb-4"
+      >
+        <ArrowLeft className="w-4 h-4" /> Voltar à base
+      </Link>
 
-          <CardTitle className="text-3xl font-heading text-white tracking-wide">
-            {isRegisterMode ? "Alistamento" : "Acesso ao Quartel"}
-          </CardTitle>
-          <CardDescription className="text-slate-400">
-            {isRegisterMode 
-                ? "Junte-se às fileiras do clã." 
-                : "Identifique-se, guerreiro."}
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <form action={onSubmit} className="space-y-5">
-            
-            {/* Campo Tag */}
-            <div className="space-y-2">
-              <Label htmlFor="tag" className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                <ShieldAlert className="w-3 h-3 text-yellow-500" /> Tag do Jogador
-              </Label>
-              <div className="relative group">
-                <div className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-yellow-500 transition-colors">
-                  <span className="font-bold text-lg">#</span>
-                </div>
-                <Input 
-                  id="tag" 
-                  name="tag"
-                  placeholder="P028..."
-                  className="pl-8 h-12 bg-[#0c0d14] border-[#2f3245] text-white placeholder:text-slate-700 focus-visible:ring-yellow-500/50 rounded-xl font-mono uppercase tracking-widest text-lg"
-                  required
-                  autoFocus
-                />
-              </div>
-            </div>
-            
-            {/* Campo Senha */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                  <Lock className="w-3 h-3 text-yellow-500" /> Senha
-                </Label>
-                {!isRegisterMode && (
-                    <span className="text-[10px] text-yellow-600/80 hover:text-yellow-500 cursor-pointer transition-colors">
-                    Esqueceu a senha?
-                    </span>
-                )}
-              </div>
-              <div className="relative group">
-                <div className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-yellow-500 transition-colors">
-                  <Lock className="w-5 h-5"/>
-                </div>
-                <Input 
-                  id="password"
-                  name="password"
-                  type="password" 
-                  placeholder="••••••••"
-                  className="pl-10 h-12 bg-[#0c0d14] border-[#2f3245] text-white focus-visible:ring-yellow-500/50 rounded-xl"
-                  required 
-                />
-              </div>
-            </div>
-
-            {/* Mensagem de Erro */}
-            {error && (
-              <div className="bg-red-950/30 border border-red-500/30 rounded-lg p-3 flex items-center gap-3 text-red-400 text-sm font-medium animate-in slide-in-from-top-2">
-                <AlertCircle className="w-5 h-5 shrink-0" />
-                {error}
-              </div>
-            )}
-
-            <Button 
-              type="submit" 
-              disabled={loading} 
-              className={`w-full h-14 text-lg font-bold shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]
-                ${isRegisterMode 
-                    ? "bg-green-700 hover:bg-green-600 text-white border-b-4 border-green-900" 
-                    : "bg-yellow-600 hover:bg-yellow-500 text-black border-b-4 border-yellow-800"
-                }`}
+      <div className="panel-clash backdrop-blur-md p-8 shadow-[0_0_60px_rgba(0,0,0,0.6)]">
+        {/* Emblema */}
+        <div className="text-center mb-6">
+          <div className="mx-auto mb-5 relative w-20 h-20">
+            <div className={`absolute inset-0 blur-xl rounded-full ${isRegisterMode ? "bg-success/30" : "bg-primary/30"}`} />
+            <div
+              className={`relative h-20 w-20 rounded-2xl rotate-45 flex items-center justify-center border-4 shadow-[0_8px_24px_-6px_rgba(0,0,0,0.6)] ${
+                isRegisterMode
+                  ? "bg-gradient-to-br from-lime-400 to-green-700 border-green-900/50"
+                  : "bg-gradient-to-br from-amber-300 to-amber-700 border-amber-800/60"
+              }`}
             >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="w-5 h-5 animate-spin"/> {isRegisterMode ? "Alistando..." : "Entrando..."}
-                </span>
+              {isRegisterMode ? (
+                <UserPlus className="w-9 h-9 text-white -rotate-45" />
               ) : (
-                <span className="flex items-center gap-2">
-                  {isRegisterMode ? <UserPlus className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
-                  {isRegisterMode ? "Confirmar Alistamento" : "Abrir Portões"}
-                </span>
+                <Swords className="w-9 h-9 text-amber-950 -rotate-45" />
               )}
-            </Button>
-          </form>
-
-          {/* Toggle Login/Registro */}
-          <div className="mt-6 text-center">
-              <p className="text-slate-500 text-xs">
-                  {isRegisterMode ? "Já tem uma conta?" : "Ainda não é membro?"}
-                  <button 
-                    onClick={() => setIsRegisterMode(!isRegisterMode)}
-                    className="ml-2 text-yellow-500 font-bold hover:underline hover:text-yellow-400 transition-colors"
-                  >
-                      {isRegisterMode ? "Fazer Login" : "Solicitar Acesso"}
-                  </button>
-              </p>
+            </div>
           </div>
 
-        </CardContent>
-      </Card>
+          <h1 className="text-3xl md:text-4xl clash-title">
+            {isRegisterMode ? "Alistamento" : "Acesso ao Quartel"}
+          </h1>
+          <p className="text-muted-foreground text-sm mt-2">
+            {isRegisterMode ? "Junte-se às fileiras do clã." : "Identifique-se, guerreiro."}
+          </p>
+        </div>
+
+        <div className="gold-rule mb-6" />
+
+        <form action={onSubmit} className="space-y-5">
+          {/* Campo Tag */}
+          <div className="space-y-2">
+            <Label htmlFor="tag" className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+              <ShieldAlert className="w-3 h-3 text-primary" /> Tag do Jogador
+            </Label>
+            <div className="relative group">
+              <span className="absolute left-3 top-3 text-muted-foreground group-focus-within:text-primary transition-colors font-bold text-lg">
+                #
+              </span>
+              <Input
+                id="tag"
+                name="tag"
+                placeholder="ADMIN"
+                className="pl-8 h-12 bg-background border-border text-white placeholder:text-muted-foreground/60 focus-visible:ring-primary/50 focus-visible:border-primary/50 rounded-xl font-mono uppercase tracking-widest text-lg"
+                required
+                autoFocus
+              />
+            </div>
+          </div>
+
+          {/* Campo Senha */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password" className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                <Lock className="w-3 h-3 text-primary" /> Senha
+              </Label>
+              {!isRegisterMode && (
+                <a
+                  href={FORGOT_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[10px] text-primary/80 hover:text-primary cursor-pointer transition-colors"
+                >
+                  Esqueceu a senha?
+                </a>
+              )}
+            </div>
+            <div className="relative group">
+              <Lock className="absolute left-3 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                className="pl-10 pr-11 h-12 bg-background border-border text-white focus-visible:ring-primary/50 focus-visible:border-primary/50 rounded-xl"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mensagem de Erro */}
+          {error && (
+            <div className="bg-destructive/15 border border-destructive/40 rounded-lg p-3 flex items-center gap-3 text-destructive text-sm font-medium animate-in slide-in-from-top-2">
+              <AlertCircle className="w-5 h-5 shrink-0" />
+              {error}
+            </div>
+          )}
+
+          {/* Botão épico */}
+          <button type="submit" disabled={loading} className={`${isRegisterMode ? "btn-clash-green" : "btn-clash"} w-full text-base disabled:opacity-70 disabled:cursor-not-allowed`}>
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="w-5 h-5 animate-spin" /> {isRegisterMode ? "Alistando..." : "Abrindo portões..."}
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                {isRegisterMode ? <UserPlus className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
+                {isRegisterMode ? "Confirmar Alistamento" : "Abrir Portões"}
+              </span>
+            )}
+          </button>
+        </form>
+
+        {/* Solicitar acesso (recrutamento via WhatsApp) */}
+        <div className="mt-6 text-center">
+          <p className="text-muted-foreground text-xs">
+            Ainda não é membro?
+            <a
+              href={JOIN_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="ml-2 text-primary font-bold hover:underline transition-colors"
+            >
+              Solicitar Acesso
+            </a>
+          </p>
+        </div>
+      </div>
 
       {/* Rodapé */}
       <div className="text-center space-y-1 animate-in fade-in duration-1000 delay-500 mt-8">
-          <div className="flex justify-center gap-1">
-              {[...Array(3)].map((_, i) => (
-                  <div key={i} className="w-2 h-2 rounded-full bg-slate-800 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }}></div>
-              ))}
-          </div>
-          <p className="text-[10px] text-slate-600 uppercase tracking-widest">
-          H4RD G4ME System v2.0
-          </p>
+        <div className="flex justify-center gap-1">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="w-2 h-2 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+          ))}
+        </div>
+        <p className="text-[10px] text-muted-foreground uppercase tracking-widest">H4RD G4ME System v2.0</p>
       </div>
-
     </div>
   );
 }

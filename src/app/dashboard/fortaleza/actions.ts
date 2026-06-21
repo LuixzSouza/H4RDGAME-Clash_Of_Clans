@@ -2,9 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdmin, requireAuth } from "@/lib/auth";
 
 export async function getLayouts() {
   try {
+    await requireAuth();
     return await prisma.layout.findMany({ orderBy: { createdAt: 'desc' } });
   } catch (error) {
     return [];
@@ -13,6 +15,7 @@ export async function getLayouts() {
 
 export async function createLayout(formData: FormData) {
   try {
+    await requireAdmin();
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const thLevel = parseInt(formData.get("thLevel") as string);
@@ -34,6 +37,7 @@ export async function createLayout(formData: FormData) {
 
 export async function deleteLayout(id: string) {
   try {
+    await requireAdmin();
     await prisma.layout.delete({ where: { id } });
     revalidatePath("/dashboard/fortaleza");
     return { success: true };

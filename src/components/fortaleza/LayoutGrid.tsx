@@ -38,9 +38,9 @@ export function LayoutGrid({
   // Helpers
   const getTypeIcon = (type: string) => {
     switch(type) {
-      case "war": return <Swords className="w-4 h-4 text-red-500" />;
-      case "farm": return <Coins className="w-4 h-4 text-green-500" />;
-      case "push": return <Trophy className="w-4 h-4 text-yellow-500" />;
+      case "war": return <Swords className="w-4 h-4 text-destructive" />;
+      case "farm": return <Coins className="w-4 h-4 text-success" />;
+      case "push": return <Trophy className="w-4 h-4 text-primary" />;
       default: return <Castle className="w-4 h-4" />;
     }
   };
@@ -56,35 +56,35 @@ export function LayoutGrid({
 
   const getTypeColor = (type: string) => {
     switch(type) {
-        case "war": return "border-red-500/50 bg-red-950/40 text-red-400";
-        case "farm": return "border-green-500/50 bg-green-950/40 text-green-400";
-        case "push": return "border-yellow-500/50 bg-yellow-950/40 text-yellow-400";
-        default: return "border-slate-500/50 bg-slate-500/10";
+        case "war": return "border-destructive/50 bg-destructive/40 text-destructive";
+        case "farm": return "border-success/50 bg-success/40 text-success";
+        case "push": return "border-primary/50 bg-primary/40 text-primary";
+        default: return "border-border/50 bg-muted/10";
       }
   };
 
   if (loading) {
-    return <div className="col-span-full py-20 text-center text-slate-500 animate-pulse">Carregando a fortaleza...</div>;
+    return <div className="col-span-full py-20 text-center text-muted-foreground animate-pulse">Carregando a fortaleza...</div>;
   }
 
   if (layouts.length === 0) {
     return (
-        <div className="col-span-full py-20 text-center flex flex-col items-center justify-center text-slate-500 bg-[#1e202b]/50 rounded-xl border border-dashed border-[#2f3245]">
-            <div className="bg-[#15161e] p-6 rounded-full mb-4 border border-[#2f3245]">
-                <ShieldCheck className="w-12 h-12 opacity-20 text-slate-400" />
+        <div className="col-span-full py-20 text-center flex flex-col items-center justify-center text-muted-foreground bg-card/50 rounded-xl border border-dashed border-border">
+            <div className="bg-background p-6 rounded-full mb-4 border border-border">
+                <ShieldCheck className="w-12 h-12 opacity-20 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-bold text-slate-300">Nenhum layout encontrado</h3>
-            <p className="text-sm mt-2 max-w-md mx-auto text-slate-500">
+            <h3 className="text-xl font-bold text-muted-foreground">Nenhum layout encontrado</h3>
+            <p className="text-sm mt-2 max-w-md mx-auto text-muted-foreground">
                 Ainda não adicionamos layouts para o CV{selectedTH} do tipo {getTypeLabel(selectedType)}. 
                 <br/>
                 {isAdmin ? "Como líder, você pode adicionar um novo agora." : "Tente mudar os filtros ou peça no chat."}
             </p>
             {isAdmin ? (
-                <Button variant="outline" className="mt-6 border-slate-600 text-slate-400 hover:text-white" onClick={onAddClick}>
+                <Button variant="outline" className="mt-6 border-border text-muted-foreground hover:text-white" onClick={onAddClick}>
                     <Plus className="w-4 h-4 mr-2"/> Adicionar Layout
                 </Button>
             ) : (
-                <Button variant="outline" className="mt-6 border-slate-600 text-slate-400 hover:text-white" onClick={onClearFilter}>
+                <Button variant="outline" className="mt-6 border-border text-muted-foreground hover:text-white" onClick={onClearFilter}>
                     Limpar Filtros
                 </Button>
             )}
@@ -97,7 +97,7 @@ export function LayoutGrid({
         {layouts.map((layout) => (
             <div 
                 key={layout.id} 
-                className="group relative bg-[#1e202b] border border-[#2f3245] rounded-xl overflow-hidden hover:border-slate-500 transition-all duration-300 shadow-lg flex flex-col"
+                className="group relative bg-card border border-border rounded-xl overflow-hidden hover:border-border transition-all duration-300 shadow-lg flex flex-col"
             >
                 {/* Botão Excluir (Admin) */}
                 {isAdmin && (
@@ -109,11 +109,11 @@ export function LayoutGrid({
                 )}
 
                 {/* Imagem do Layout */}
-                <div className="relative aspect-video w-full overflow-hidden bg-[#0c1216] border-b border-[#2f3245]">
+                <div className="relative aspect-video w-full overflow-hidden bg-background border-b border-border">
                     
                     {/* Badge TH Flutuante */}
                     <div className="absolute top-3 left-3 z-10">
-                        <Badge className="bg-blue-600 border-blue-400 text-white font-bold text-xs shadow-black/50 shadow-md">
+                        <Badge className="bg-primary border-primary text-white font-bold text-xs shadow-black/50 shadow-md">
                             TH {layout.thLevel}
                         </Badge>
                     </div>
@@ -146,15 +146,15 @@ export function LayoutGrid({
 
                 <CardHeader className="pb-3">
                     <CardTitle className="text-white text-lg line-clamp-1" title={layout.name}>{layout.name}</CardTitle>
-                    <CardDescription className="text-slate-400 line-clamp-2 text-sm min-h-[40px]">
+                    <CardDescription className="text-muted-foreground line-clamp-2 text-sm min-h-[40px]">
                         {layout.description}
                     </CardDescription>
                 </CardHeader>
 
-                <CardFooter className="mt-auto pt-0 p-4 bg-[#1a1b26]/50 border-t border-[#2f3245]">
+                <CardFooter className="mt-auto pt-0 p-4 bg-card/50 border-t border-border">
                     <Button 
                         variant="outline"
-                        className="w-full bg-transparent border-slate-700 text-slate-300 hover:bg-[#2f3245] hover:text-white hover:border-slate-500 transition-all gap-2"
+                        className="w-full bg-transparent border-border text-muted-foreground hover:bg-accent hover:text-white hover:border-border transition-all gap-2"
                         onClick={() => onCopyLink(layout.link)}
                     >
                         <Copy className="w-4 h-4" /> Copiar Link

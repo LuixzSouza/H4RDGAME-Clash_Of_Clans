@@ -25,6 +25,8 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
@@ -44,83 +46,94 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* --- VARIÁVEIS DE TEMA AVANÇADAS --- */
+/* --- VARIÁVEIS DE TEMA AVANÇADAS ---
+   Paleta fiel ao Clash of Clans / loja oficial:
+   PRETO QUENTE de fundo + DOURADO como única cor de ação + texto branco-quente.
+   Cores semânticas (verde/vermelho) ficam por conta de utilitários pontuais. */
 :root {
   --radius: 0.75rem;
 
-  /* MODO CLARO (Não focado, mas mantido funcional) */
-  --background: oklch(0.97 0.01 260);
-  --foreground: oklch(0.20 0.05 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0.05 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.20 0.05 260);
-  --primary: oklch(0.60 0.18 50); /* Laranja Clash */
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.95 0.02 260);
-  --secondary-foreground: oklch(0.25 0.05 260);
-  --muted: oklch(0.95 0.02 260);
-  --muted-foreground: oklch(0.50 0.05 260);
-  --accent: oklch(0.95 0.02 260);
-  --accent-foreground: oklch(0.25 0.05 260);
+  /* Cor de status semântica (verde "IN") — disponível em ambos os temas */
+  --success: oklch(0.62 0.16 150);
+  --success-foreground: oklch(0.98 0.01 95);
+
+  /* MODO CLARO (Não focado — pergaminho neutro + dourado) */
+  --background: oklch(0.96 0.012 85);
+  --foreground: oklch(0.24 0.02 70);
+  --card: oklch(0.99 0.006 90);
+  --card-foreground: oklch(0.24 0.02 70);
+  --popover: oklch(0.99 0.006 90);
+  --popover-foreground: oklch(0.24 0.02 70);
+  --primary: oklch(0.70 0.15 78); /* Dourado Clash */
+  --primary-foreground: oklch(0.20 0.02 70);
+  --secondary: oklch(0.92 0.012 85);
+  --secondary-foreground: oklch(0.28 0.02 70);
+  --muted: oklch(0.92 0.012 85);
+  --muted-foreground: oklch(0.50 0.02 70);
+  --accent: oklch(0.90 0.03 80);
+  --accent-foreground: oklch(0.28 0.02 70);
   --destructive: oklch(0.55 0.20 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.90 0.02 260);
-  --input: oklch(0.90 0.02 260);
-  --ring: oklch(0.60 0.18 50);
-  
-  --sidebar: oklch(0.98 0 0);
-  --sidebar-foreground: oklch(0.20 0.05 260);
-  --sidebar-primary: oklch(0.20 0.05 260);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.95 0.02 260);
-  --sidebar-accent-foreground: oklch(0.20 0.05 260);
-  --sidebar-border: oklch(0.90 0.02 260);
-  --sidebar-ring: oklch(0.90 0.02 260);
+  --border: oklch(0.86 0.015 80);
+  --input: oklch(0.86 0.015 80);
+  --ring: oklch(0.70 0.15 78);
+
+  --sidebar: oklch(0.97 0.01 85);
+  --sidebar-foreground: oklch(0.24 0.02 70);
+  --sidebar-primary: oklch(0.70 0.15 78);
+  --sidebar-primary-foreground: oklch(0.20 0.02 70);
+  --sidebar-accent: oklch(0.90 0.03 80);
+  --sidebar-accent-foreground: oklch(0.24 0.02 70);
+  --sidebar-border: oklch(0.86 0.015 80);
+  --sidebar-ring: oklch(0.70 0.15 78);
 }
 
-/* MODO ESCURO (O Principal - Estilo H4RD G4ME) */
+/* MODO ESCURO (O Principal - Estilo Clash of Clans) */
 .dark {
-  /* Fundo Profundo (Azul Noturno) */
-  --background: oklch(0.14 0.03 260); 
-  --foreground: oklch(0.92 0.02 260);
+  /* Fundo Profundo (Preto Quente / Near-black #0E0D0B) */
+  --background: oklch(0.13 0.008 70);
+  --foreground: oklch(0.96 0.008 80); /* Branco quente #F5F2EC */
 
-  /* Elementos de Interface (Cinza Azulado Escuro) */
-  --card: oklch(0.18 0.04 260);
-  --card-foreground: oklch(0.92 0.02 260);
-  --popover: oklch(0.18 0.04 260);
-  --popover-foreground: oklch(0.92 0.02 260);
+  /* Elementos de Interface (Painel quente #1A1715) */
+  --card: oklch(0.19 0.010 70);
+  --card-foreground: oklch(0.96 0.008 80);
+  --popover: oklch(0.17 0.010 70);
+  --popover-foreground: oklch(0.96 0.008 80);
 
-  /* Cores de Ação */
-  --primary: oklch(0.65 0.20 55); /* Laranja Vibrante */
-  --primary-foreground: oklch(1 0 0);
-  
-  --secondary: oklch(0.25 0.05 260); /* Cinza Médio */
-  --secondary-foreground: oklch(0.90 0.02 260);
-  
-  --muted: oklch(0.25 0.05 260);
-  --muted-foreground: oklch(0.60 0.05 260);
-  
-  --accent: oklch(0.25 0.05 260);
-  --accent-foreground: oklch(0.95 0.02 260);
-  
-  --destructive: oklch(0.50 0.20 25); /* Vermelho Sangue */
+  /* Cores de Ação — DOURADO Clash (#F0A92B) */
+  --primary: oklch(0.79 0.155 78);
+  --primary-foreground: oklch(0.18 0.01 70); /* Texto escuro sobre o dourado */
+
+  --secondary: oklch(0.24 0.012 70); /* Superfície neutra quente */
+  --secondary-foreground: oklch(0.94 0.008 80);
+
+  --muted: oklch(0.24 0.012 70);
+  --muted-foreground: oklch(0.66 0.015 75); /* Cinza quente p/ legendas */
+
+  --accent: oklch(0.26 0.02 78); /* Âmbar suave p/ hover/seleção */
+  --accent-foreground: oklch(0.96 0.008 80);
+
+  --destructive: oklch(0.55 0.20 25); /* Vermelho perigo */
   --destructive-foreground: oklch(1 0 0);
 
-  /* Bordas e Inputs (Sutis) */
-  --border: oklch(0.25 0.05 260);
-  --input: oklch(0.25 0.05 260);
-  --ring: oklch(0.65 0.20 55); /* Foco Laranja */
+  /* Status semântico verde (mais vivo no escuro) */
+  --success: oklch(0.68 0.17 150);
+  --success-foreground: oklch(0.15 0.02 150);
 
-  /* Sidebar Específica */
-  --sidebar: oklch(0.12 0.03 260);
-  --sidebar-foreground: oklch(0.90 0.02 260);
-  --sidebar-primary: oklch(0.65 0.20 55);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.20 0.04 260);
-  --sidebar-accent-foreground: oklch(0.95 0.02 260);
-  --sidebar-border: oklch(0.25 0.05 260);
-  --sidebar-ring: oklch(0.65 0.20 55);
+  /* Bordas e Inputs (Quentes e sutis) */
+  --border: oklch(0.27 0.012 70);
+  --input: oklch(0.27 0.012 70);
+  --ring: oklch(0.79 0.155 78); /* Foco Dourado */
+
+  /* Sidebar Específica (mais escura que o card) */
+  --sidebar: oklch(0.15 0.009 70);
+  --sidebar-foreground: oklch(0.94 0.008 80);
+  --sidebar-primary: oklch(0.79 0.155 78);
+  --sidebar-primary-foreground: oklch(0.18 0.01 70);
+  --sidebar-accent: oklch(0.22 0.012 72);
+  --sidebar-accent-foreground: oklch(0.96 0.008 80);
+  --sidebar-border: oklch(0.25 0.012 70);
+  --sidebar-ring: oklch(0.79 0.155 78);
 }
 
 @layer base {
@@ -137,15 +150,19 @@
     background: transparent; 
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-700/50 rounded-full hover:bg-slate-600 transition-colors;
+    background-color: oklch(0.79 0.155 78 / 0.25);
+    @apply rounded-full transition-colors;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: oklch(0.79 0.155 78 / 0.45);
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-    /* Gradiente Global Fixo */
-    background-image: 
-        radial-gradient(circle at top center, oklch(0.20 0.06 260 / 0.4), transparent 70%),
-        linear-gradient(to bottom, oklch(0.14 0.03 260), oklch(0.10 0.02 260));
+    /* Gradiente Global Fixo — preto quente com brilho dourado sutil no topo */
+    background-image:
+        radial-gradient(circle at top center, oklch(0.79 0.155 78 / 0.10), transparent 65%),
+        linear-gradient(to bottom, oklch(0.14 0.008 70), oklch(0.10 0.006 65));
     background-attachment: fixed;
   }
 
@@ -157,45 +174,99 @@
 
 @layer components {
   
-  /* Botão Laranja Épico (Estilo Clash) */
+  /* Botão Dourado Épico (Estilo Clash) — ação primária do app */
   .btn-clash {
-    @apply relative inline-flex items-center justify-center overflow-hidden rounded-xl 
-           bg-gradient-to-b from-yellow-400 to-orange-600 
-           px-6 py-3 font-bold uppercase tracking-wider text-white 
-           shadow-[0_4px_0_0_#9a3412,0_7px_5px_0_rgba(0,0,0,0.3)] 
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-xl
+           bg-gradient-to-b from-amber-300 to-amber-600
+           px-6 py-3 font-bold uppercase tracking-wider text-amber-950
+           shadow-[0_4px_0_0_#7c4a13,0_7px_5px_0_rgba(0,0,0,0.4)]
            transition-all duration-150 active:shadow-none active:translate-y-1;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.25);
   }
   .btn-clash:hover {
-    @apply brightness-110 -translate-y-0.5 shadow-[0_5px_0_0_#9a3412,0_10px_10px_0_rgba(0,0,0,0.3)];
+    @apply brightness-110 -translate-y-0.5 shadow-[0_5px_0_0_#7c4a13,0_10px_10px_0_rgba(0,0,0,0.4)];
   }
 
-  /* Botão Verde Épico */
+  /* Botão Verde Épico (confirmação / "entrar na guerra") */
   .btn-clash-green {
-    @apply relative inline-flex items-center justify-center overflow-hidden rounded-xl 
-           bg-gradient-to-b from-lime-400 to-green-700 
-           px-6 py-3 font-bold uppercase tracking-wider text-white 
-           shadow-[0_4px_0_0_#14532d,0_7px_5px_0_rgba(0,0,0,0.3)] 
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-xl
+           bg-gradient-to-b from-lime-400 to-green-700
+           px-6 py-3 font-bold uppercase tracking-wider text-white
+           shadow-[0_4px_0_0_#14532d,0_7px_5px_0_rgba(0,0,0,0.4)]
            transition-all duration-150 active:shadow-none active:translate-y-1;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
   }
   .btn-clash-green:hover {
-    @apply brightness-110 -translate-y-0.5 shadow-[0_5px_0_0_#14532d,0_10px_10px_0_rgba(0,0,0,0.3)];
+    @apply brightness-110 -translate-y-0.5 shadow-[0_5px_0_0_#14532d,0_10px_10px_0_rgba(0,0,0,0.4)];
   }
 
   /* Cards com Efeito Vidro Fosco (Glassmorphism) */
   .glass-panel {
-    @apply bg-[#1e202b]/90 backdrop-blur-md border border-[#2f3245] shadow-xl;
+    @apply bg-card/85 backdrop-blur-md border border-border shadow-xl;
   }
 
   /* Card Padrão do Sistema */
   .card-clash {
-    @apply bg-card border-border rounded-xl shadow-lg transition-all hover:border-slate-500/50;
+    @apply bg-card border-border rounded-xl shadow-lg transition-all hover:border-primary/40;
+  }
+
+  /* Moldura Dourada — destaque estilo Clash (borda + brilho sutil) */
+  .frame-gold {
+    @apply border border-primary/40 shadow-[0_0_0_1px_rgba(240,169,43,0.08),0_8px_24px_-8px_rgba(240,169,43,0.25)];
   }
   
   /* Máscara de Desvanecimento Linear (Útil para listas longas) */
   .mask-linear-fade {
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  /* ===== SISTEMA VISUAL CLASH (Landing) ===== */
+
+  /* Título dourado embossado — estilo logo Clash of Clans */
+  .clash-title {
+    @apply font-heading bg-gradient-to-b from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent;
+    filter: drop-shadow(0 1px 0 rgba(60,30,0,0.7)) drop-shadow(0 3px 5px rgba(0,0,0,0.55));
+  }
+
+  /* Painel "caixa do Clash" — madeira/pedra escura com moldura dourada e brilho no topo */
+  .panel-clash {
+    @apply relative rounded-2xl border-2 border-primary/25
+           bg-gradient-to-b from-card to-background
+           shadow-[0_12px_36px_-12px_rgba(0,0,0,0.75)];
+  }
+  .panel-clash::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-3 top-0 h-px
+           bg-gradient-to-r from-transparent via-primary/70 to-transparent;
+  }
+
+  /* Etiqueta de seção (eyebrow) dourada */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full
+           border border-primary/30 bg-primary/10 text-primary
+           text-xs font-bold uppercase tracking-[0.2em];
+  }
+
+  /* Divisória ornamental dourada (linha fina com fade) */
+  .gold-rule {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent;
+  }
+
+  /* Placa de madeira (stats / números) */
+  .plaque {
+    @apply relative rounded-xl border border-primary/20
+           bg-gradient-to-b from-secondary to-card
+           shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04),0_6px_16px_-8px_rgba(0,0,0,0.6)];
+  }
+
+  /* Botão dourado secundário (contorno) — par do .btn-clash */
+  .btn-clash-outline {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-xl
+           border-2 border-primary/40 bg-primary/5 px-6 py-3
+           font-bold uppercase tracking-wider text-primary
+           shadow-[0_4px_0_0_rgba(0,0,0,0.35)]
+           transition-all duration-150 hover:bg-primary/10 hover:border-primary/60
+           active:translate-y-1 active:shadow-none;
   }
 }
 
@@ -241,4 +312,19 @@
   100% {
     transform: translateX(100%);
   }
+}
+
+/* Chama da tocha (login) — tremulação */
+@keyframes flame-flicker {
+  0%, 100% { transform: scaleY(1) scaleX(1) translateY(0); opacity: 0.92; }
+  25% { transform: scaleY(1.12) scaleX(0.94) translateY(-1px); opacity: 1; }
+  50% { transform: scaleY(0.94) scaleX(1.06); opacity: 0.82; }
+  75% { transform: scaleY(1.06) scaleX(0.97); opacity: 1; }
+}
+
+/* Brasas subindo (login) */
+@keyframes ember-rise {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(-140px) translateX(12px) scale(0.4); opacity: 0; }
 }

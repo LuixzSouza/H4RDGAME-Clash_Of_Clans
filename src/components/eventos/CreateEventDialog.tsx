@@ -22,7 +22,7 @@ export function CreateEventDialog({ isOpen, onOpenChange, onConfirm }: CreateEve
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1e202b] border-[#2f3245] text-white sm:max-w-[500px]">
+      <DialogContent className="bg-card border-border text-white sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Convocar Clã / Novo Aviso</DialogTitle>
         </DialogHeader>
@@ -33,10 +33,10 @@ export function CreateEventDialog({ isOpen, onOpenChange, onConfirm }: CreateEve
               <div className="space-y-2">
                 <Label>Tipo de Evento</Label>
                 <Select name="type" defaultValue="war">
-                  <SelectTrigger className="bg-[#15161e] border-[#2f3245] text-white">
+                  <SelectTrigger className="bg-background border-border text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1e202b] border-[#2f3245] text-white">
+                  <SelectContent className="bg-card border-border text-white">
                     <SelectItem value="war">⚔️ Guerra</SelectItem>
                     <SelectItem value="games">🎯 Jogos do Clã</SelectItem>
                     <SelectItem value="raid">🏰 Capital</SelectItem>
@@ -50,7 +50,7 @@ export function CreateEventDialog({ isOpen, onOpenChange, onConfirm }: CreateEve
                 <Input 
                     type="datetime-local" 
                     name="date" 
-                    className="bg-[#15161e] border-[#2f3245] text-white [color-scheme:dark]" 
+                    className="bg-background border-border text-white [color-scheme:dark]" 
                     required 
                 />
               </div>
@@ -58,7 +58,7 @@ export function CreateEventDialog({ isOpen, onOpenChange, onConfirm }: CreateEve
 
           <div className="space-y-2">
             <Label>Título do Comando</Label>
-            <Input name="title" placeholder="Ex: Guerra 50v50 - Todos atacam!" className="bg-[#15161e] border-[#2f3245] text-white focus-visible:ring-yellow-500" required />
+            <Input name="title" placeholder="Ex: Guerra 50v50 - Todos atacam!" className="bg-background border-border text-white focus-visible:ring-primary" required />
           </div>
           
           <div className="space-y-2">
@@ -66,14 +66,14 @@ export function CreateEventDialog({ isOpen, onOpenChange, onConfirm }: CreateEve
             <Textarea 
                 name="description" 
                 placeholder="Descreva a estratégia, alvos prioritários ou regras..." 
-                className="bg-[#15161e] border-[#2f3245] text-white min-h-[120px] focus-visible:ring-yellow-500" 
+                className="bg-background border-border text-white min-h-[120px] focus-visible:ring-primary" 
                 required 
             />
           </div>
 
           <DialogFooter>
-             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-400">Cancelar</Button>
-             <Button type="submit" className="bg-green-600 hover:bg-green-500 text-white font-bold w-full sm:w-auto">
+             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground">Cancelar</Button>
+             <Button type="submit" className="bg-success hover:bg-success text-white font-bold w-full sm:w-auto">
                 Publicar no Mural
              </Button>
           </DialogFooter>

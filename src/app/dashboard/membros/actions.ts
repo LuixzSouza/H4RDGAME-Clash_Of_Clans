@@ -4,8 +4,9 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { Role, WarPreference, Prisma } from "@prisma/client";
-import { fetchClanData } from "@/lib/coc"; 
-import { createLog } from "@/app/actions"; 
+import { fetchClanData } from "@/lib/coc";
+import { createLog } from "@/app/actions";
+import { requireAdmin, requireAuth } from "@/lib/auth";
 
 // --- UTILS LOCAIS (CORRIGIDO E MAIS ROBUSTO) ---
 // Agora aceita "LIDER", "Líder", "lider", etc.
@@ -39,7 +40,13 @@ function mapCocRoleToEnum(cocRole: string): Role {
 // --- LEITURA ---
 export async function getMembers() {
   try {
+    await requireAuth();
     return await prisma.member.findMany({
+      select: {
+        id: true, name: true, tag: true, avatarSeed: true, phone: true,
+        lastSeen: true, role: true, thLevel: true, warStatus: true,
+        strikes: true, isActive: true, createdAt: true, updatedAt: true,
+      },
       orderBy: [
         { role: 'asc' }, // LIDER vem primeiro no enum por padrão se definido assim, senão ordene por peso customizado
         { name: 'asc' }
@@ -54,6 +61,7 @@ export async function getMembers() {
 // --- CRIAÇÃO (RECRUTAMENTO) ---
 export async function createMember(formData: FormData) {
   try {
+    await requireAdmin();
     const name = formData.get("name") as string;
     const tag = formData.get("tag") as string;
     const roleString = formData.get("role") as string;
@@ -91,6 +99,7 @@ export async function createMember(formData: FormData) {
 
 // --- EDIÇÃO (DADOS + CARGO) ---
 export async function updateMember(formData: FormData) {
+  await requireAdmin();
   const id = formData.get("id") as string;
   const name = formData.get("name") as string;
   const roleString = formData.get("role") as string;
@@ -139,6 +148,7 @@ export async function updateMember(formData: FormData) {
 // --- EXCLUSÃO ---
 export async function deleteMember(id: string) {
   try {
+    await requireAdmin();
     const member = await prisma.member.findUnique({ where: { id } });
     if (!member) return;
 
@@ -160,6 +170,7 @@ export async function deleteMember(id: string) {
 // --- TOGGLE RÁPIDO DE GUERRA ---
 export async function toggleWarStatus(id: string) {
   try {
+    await requireAdmin();
     const member = await prisma.member.findUnique({ where: { id } });
     if (!member) return;
 
@@ -184,6 +195,7 @@ export async function toggleWarStatus(id: string) {
 // --- MANUAL: MARCAR COMO VISTO ---
 export async function markAsSeen(id: string) {
     try {
+        await requireAdmin();
         await prisma.member.update({
             where: { id },
             data: { lastSeen: new Date() }
@@ -198,6 +210,7 @@ export async function markAsSeen(id: string) {
 // --- SINCRONIZAÇÃO COM API ---
 export async function syncWithGame() {
   try {
+    await requireAdmin();
     const clanData = await fetchClanData();
     if (!clanData || !clanData.memberList) throw new Error("Dados inválidos da API.");
 

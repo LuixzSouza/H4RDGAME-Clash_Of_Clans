@@ -122,7 +122,7 @@ export default function EventosPage() {
 
       {/* 4. Lista de Eventos (Filtrada) */}
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-slate-300 pl-1 border-l-4 border-orange-500">
+        <h3 className="text-xl font-bold text-muted-foreground pl-1 border-l-4 border-primary">
             Mural Oficial
         </h3>
         <EventList 
@@ -134,7 +134,7 @@ export default function EventosPage() {
       </div>
 
       {/* 5. Seção de Notícias e Comunidade */}
-      <div className="pt-8 border-t border-[#2f3245]">
+      <div className="pt-8 border-t border-border">
         <ClashNews />
       </div>
 

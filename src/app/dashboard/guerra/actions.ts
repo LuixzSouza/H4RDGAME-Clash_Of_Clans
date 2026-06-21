@@ -2,9 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdmin, requireAuth } from "@/lib/auth";
 
 // Iniciar nova guerra
 export async function startWar(formData: FormData) {
+  await requireAdmin();
   const opponent = formData.get("opponent") as string;
   const size = parseInt(formData.get("size") as string);
   const isLeague = formData.get("isLeague") === "on";
@@ -30,6 +32,7 @@ export async function startWar(formData: FormData) {
 }
 
 export async function getActiveWar() {
+  await requireAuth();
   return await prisma.war.findFirst({
     where: { isActive: true },
     include: {
@@ -41,6 +44,7 @@ export async function getActiveWar() {
 }
 
 export async function registerAttack(formData: FormData) {
+  await requireAdmin();
   const warId = formData.get("warId") as string;
   const memberId = formData.get("memberId") as string;
   const attackNumber = parseInt(formData.get("attackNumber") as string);
@@ -58,6 +62,7 @@ export async function registerAttack(formData: FormData) {
 }
 
 export async function endWar(formData: FormData) {
+  await requireAdmin();
   const warId = formData.get("warId") as string;
   const result = formData.get("result") as string;
   const score = formData.get("score") as string;
@@ -77,6 +82,7 @@ export async function endWar(formData: FormData) {
 
 export async function getWarHistory() {
   try {
+    await requireAuth();
     return await prisma.war.findMany({
       where: { isActive: false },
       orderBy: { endDate: 'desc' },

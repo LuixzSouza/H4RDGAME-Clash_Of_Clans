@@ -3,11 +3,13 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { createLog } from "@/app/actions";
+import { requireAdmin, requireAuth } from "@/lib/auth";
 
 // --- CRUD DE EVENTOS ---
 
 // 1. CRIAR
 export async function createFinanceEvent(formData: FormData) {
+  await requireAdmin();
   const title = formData.get("title") as string;
   const ticketPrice = parseFloat(formData.get("ticketPrice") as string);
   const goalAmount = parseFloat(formData.get("goalAmount") as string) || 0;
@@ -30,13 +32,22 @@ export async function createFinanceEvent(formData: FormData) {
 // 2. LER (LISTAR)
 export async function getFinanceEvents() {
   try {
+    await requireAuth();
     const events = await prisma.financeEvent.findMany({
       orderBy: { createdAt: 'desc' },
-      include: { 
-        participations: { 
-            include: { member: true },
+      include: {
+        participations: {
+            include: {
+              member: {
+                select: {
+                  id: true, name: true, tag: true, avatarSeed: true, phone: true,
+                  lastSeen: true, role: true, thLevel: true, warStatus: true,
+                  strikes: true, isActive: true, createdAt: true, updatedAt: true,
+                },
+              },
+            },
             orderBy: { updatedAt: 'desc' }
-        } 
+        }
       }
     });
     return events;
@@ -48,6 +59,7 @@ export async function getFinanceEvents() {
 
 // 3. ATUALIZAR (EDITAR DADOS)
 export async function updateFinanceEvent(formData: FormData) {
+  await requireAdmin();
   const id = formData.get("id") as string;
   const title = formData.get("title") as string;
   const ticketPrice = parseFloat(formData.get("ticketPrice") as string);
@@ -71,6 +83,7 @@ export async function updateFinanceEvent(formData: FormData) {
 // 4. DELETAR (EXCLUIR)
 export async function deleteFinanceEvent(id: string) {
   try {
+    await requireAdmin();
     const event = await prisma.financeEvent.findUnique({ where: { id } });
     if (!event) return { success: false, message: "Evento não encontrado" };
 
@@ -88,6 +101,7 @@ export async function deleteFinanceEvent(id: string) {
 // 5. ALTERAR STATUS (ARQUIVAR/REABRIR)
 export async function toggleEventStatus(id: string) {
     try {
+        await requireAdmin();
         const event = await prisma.financeEvent.findUnique({ where: { id } });
         if (!event) return;
         
@@ -110,6 +124,7 @@ export async function toggleEventStatus(id: string) {
 
 export async function addParticipation(eventId: string, memberId: string) {
   try {
+    await requireAdmin();
     // 1. Busca evento para saber preço
     const event = await prisma.financeEvent.findUnique({ where: { id: eventId } });
     if (!event) return;
@@ -154,6 +169,7 @@ export async function addParticipation(eventId: string, memberId: string) {
 
 export async function removeParticipation(eventId: string, memberId: string) {
   try {
+    await requireAdmin();
     const participation = await prisma.eventParticipation.findUnique({
       where: { eventId_memberId: { eventId, memberId } },
       include: { member: true, event: true }

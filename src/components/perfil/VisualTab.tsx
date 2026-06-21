@@ -1,7 +1,7 @@
 "use client";
 
 import { Sparkles, Dices, Check, Loader2, Save } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -19,12 +19,12 @@ export function VisualTab({
   selectedSeed, setSelectedSeed, avatarGrid, onShuffle, onSave, saving, currentSeed 
 }: VisualTabProps) {
   return (
-    <Card className="bg-[#1e202b] border-[#2f3245] shadow-xl">
+    <div className="panel-clash shadow-xl">
         <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-yellow-500" /> Customizar Visual
+                <Sparkles className="w-5 h-5 text-primary" /> Customizar Visual
             </CardTitle>
-            <CardDescription className="text-slate-400">
+            <CardDescription className="text-muted-foreground">
                 Escolha uma skin abaixo ou crie uma única digitando um código.
             </CardDescription>
         </CardHeader>
@@ -36,9 +36,9 @@ export function VisualTab({
                     value={selectedSeed}
                     onChange={(e) => setSelectedSeed(e.target.value)}
                     placeholder="Digite algo para gerar um avatar único (ex: MagoDeGelo)"
-                    className="bg-[#15161e] border-[#2f3245] text-white focus-visible:ring-yellow-500"
+                    className="bg-background border-border text-white focus-visible:ring-primary"
                 />
-                <Button onClick={onShuffle} variant="outline" className="border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/10 gap-2">
+                <Button onClick={onShuffle} variant="outline" className="border-primary/50 text-primary hover:bg-primary/10 gap-2">
                     <Dices className="w-4 h-4"/> Rolar Dados
                 </Button>
             </div>
@@ -50,10 +50,10 @@ export function VisualTab({
                         key={idx}
                         onClick={() => setSelectedSeed(seed)}
                         className={`
-                            cursor-pointer rounded-2xl overflow-hidden border-2 transition-all p-2 bg-[#15161e] relative group
+                            cursor-pointer rounded-2xl overflow-hidden border-2 transition-all p-2 bg-background relative group
                             ${selectedSeed === seed 
-                                ? 'border-yellow-500 ring-2 ring-yellow-500/30 scale-105 z-10 bg-[#252a3b]' 
-                                : 'border-[#2f3245] hover:border-slate-500 hover:scale-105 opacity-80 hover:opacity-100'}
+                                ? 'border-primary ring-2 ring-primary/30 scale-105 z-10 bg-accent' 
+                                : 'border-border hover:border-border hover:scale-105 opacity-80 hover:opacity-100'}
                         `}
                     >
                         <img 
@@ -62,7 +62,7 @@ export function VisualTab({
                             className="w-full h-auto drop-shadow-md"
                         />
                         {selectedSeed === seed && (
-                            <div className="absolute top-1 right-1 bg-yellow-500 rounded-full p-0.5 shadow-lg">
+                            <div className="absolute top-1 right-1 bg-primary rounded-full p-0.5 shadow-lg">
                                 <Check className="w-3 h-3 text-black" />
                             </div>
                         )}
@@ -70,8 +70,8 @@ export function VisualTab({
                 ))}
             </div>
             
-            <div className="mt-8 flex items-center justify-between border-t border-[#2f3245] pt-6">
-                <span className="text-xs text-slate-500">
+            <div className="mt-8 flex items-center justify-between border-t border-border pt-6">
+                <span className="text-xs text-muted-foreground">
                     *A alteração será visível para todo o clã instantaneamente.
                 </span>
                 <Button 
@@ -84,6 +84,6 @@ export function VisualTab({
                 </Button>
             </div>
         </CardContent>
-    </Card>
+    </div>
   );
 }

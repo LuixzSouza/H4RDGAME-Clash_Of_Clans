@@ -16,7 +16,8 @@ async function main() {
     update: {
       role: Role.LIDER, // Garante que seja LÍDER
       thLevel: 16,
-      password: passwordHash,
+      // NÃO reescreve a senha em updates — preserva trocas feitas no painel.
+      // A senha padrão (123456) só é definida na criação inicial (bloco "create").
       isActive: true,
       warStatus: WarPreference.IN
     },

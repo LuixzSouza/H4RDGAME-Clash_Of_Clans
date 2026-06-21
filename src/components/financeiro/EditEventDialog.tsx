@@ -25,7 +25,7 @@ export function EditEventDialog({ event, isOpen, onClose, onSave }: EditEventDia
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#1e202b] border-[#2f3245] text-white sm:max-w-[425px]">
+      <DialogContent className="bg-card border-border text-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Editar Evento</DialogTitle>
         </DialogHeader>
@@ -38,7 +38,7 @@ export function EditEventDialog({ event, isOpen, onClose, onSave }: EditEventDia
                 id="title"
                 name="title" 
                 defaultValue={event.title} 
-                className="bg-[#15161e] border-[#2f3245] focus-visible:ring-yellow-500" 
+                className="bg-background border-border focus-visible:ring-primary" 
                 required
             />
           </div>
@@ -52,7 +52,7 @@ export function EditEventDialog({ event, isOpen, onClose, onSave }: EditEventDia
                 type="number" 
                 step="0.01" 
                 defaultValue={event.ticketPrice} 
-                className="bg-[#15161e] border-[#2f3245] focus-visible:ring-yellow-500" 
+                className="bg-background border-border focus-visible:ring-primary" 
                 required
               />
             </div>
@@ -65,14 +65,14 @@ export function EditEventDialog({ event, isOpen, onClose, onSave }: EditEventDia
                 step="0.01" 
                 defaultValue={event.goalAmount || ""} 
                 placeholder="Sem meta"
-                className="bg-[#15161e] border-[#2f3245] focus-visible:ring-yellow-500" 
+                className="bg-background border-border focus-visible:ring-primary" 
               />
             </div>
           </div>
 
           <DialogFooter className="pt-2">
-            <Button type="button" variant="ghost" onClick={onClose} className="mr-auto text-slate-400 hover:text-white">Cancelar</Button>
-            <Button type="submit" className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold">Salvar Alterações</Button>
+            <Button type="button" variant="ghost" onClick={onClose} className="mr-auto text-muted-foreground hover:text-white">Cancelar</Button>
+            <Button type="submit" className="bg-primary hover:bg-primary text-white font-bold">Salvar Alterações</Button>
           </DialogFooter>
         </form>
       </DialogContent>
